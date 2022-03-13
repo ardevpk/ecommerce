@@ -1,0 +1,76 @@
+{% block content %}
+  
+	{% load static %}
+	
+	<!-- Header -->
+	<header class="header shop">
+		<div class="middle-inner">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-2 col-md-2 col-12">
+						<!-- Logo -->
+						<div class="logo">
+							<a href="/"><img src="{% static 'images/logo.png' %}" alt="logo"></a>
+						</div>
+						<!--/ End Logo -->
+						<!-- Search Form -->
+						
+						<!--/ End Search Form -->
+						<div class="mobile-nav"></div>
+					</div>
+					
+					
+				</div>
+			</div>
+		</div>
+		<!-- Header Inner -->
+		<div class="header-inner">
+			<div class="container">
+				<div class="cat-nav-head">
+					<div class="row">
+						<div class="col-lg-9 col-12">
+							<div class="menu-area">
+								<!-- Main Menu -->
+								<nav class="navbar navbar-expand-lg">
+									<div class="navbar-collapse">	
+										<div class="nav-inner">	
+											<ul class="nav main-menu menu navbar-nav">
+													<li ><a href="/">Home</a></li>
+													<li><a href="/products/">Products</a></li>
+													<li><a href="#">Categories<i class="ti-angle-down"></i><span class="new">New</span></a>
+														<ul class="dropdown">
+															{% for cat in tags %}
+															<li><a href="/category/{{cat}}/">{{cat.upper}}</a></li>
+															{% endfor %}
+														</ul>
+													</li>
+													{% if cQ %}
+													<li><a href="/cart/">Cart<span class="new">{{ cQ | length }}</span></a></li>
+													{% else %}
+													<li><a href="/cart/">Cart<span class="new">0</span></a></li>
+													{% endif %}
+													{% if user.is_authenticated %}
+													  <li><a href="/account/">{{user.username}}</a></li>
+													  <li><a href="/logout/">Logout</a></li>
+													{% else %}
+													<li><a href="/login/">Login.</a></li>
+													<li><a href="/register/">Resgister</a></li>
+													{% endif %}
+												</ul>
+										</div>
+									</div>
+								</nav>
+								<!--/ End Main Menu -->	
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--/ End Header Inner -->
+	</header>
+	<!--/ End Header -->
+
+
+    
+{% endblock %}

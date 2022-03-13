@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}E-Shop{% endblock %}
+  {% block content %}
+	
+
+
+	<!-- Slider Area -->
+	<section class="hero-slider">
+		<!-- Single Slider -->
+		<div class="single-slider">
+			<div class="container">
+				<div class="row no-gutters">
+					<div class="col-lg-9 offset-lg-3 col-12">
+						<div class="text-inner">
+							<div class="row">
+								<div class="col-lg-7 col-12">
+									<div class="hero-text">
+										<h1><span>UP TO 70% OFF </span>Wholesale Products</h1>
+										<p>Shezad Electronics Provides Electronic Products On Extremely <br>Extra Ordinary Wholesale Price.</p>
+										<div class="button">
+											<a href="#" class="btn">Shop Now!</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--/ End Single Slider -->
+	</section>
+	<!--/ End Slider Area -->
+
+	
+
+	  
+	<!-- Start Most Popular -->
+	<div class="product-area most-popular section">
+        <div class="container">
+            <div class="row">
+				<div class="col-12">
+					<div class="section-title">
+						<h2>{{tag}}</h2>
+					</div>
+				</div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="owl-carousel popular-slider">
+						<!-- Start Single Product -->
+						{% for i in data %}
+						<div class="single-product">
+							<div class="product-img">
+								<a href="#">
+									<img class="default-img" src="{{i.image}}" alt="#">
+									<span class="new">New</span>
+								</a>
+								<div class="button-head">
+									<div class="product-action">
+										<a data-toggle="modal" data-target="#{{i.id}}" title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick Shop</span></a>
+										<a title="Wishlist" href="#"><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
+									</div>
+									<div class="product-action-2">
+										<a title="Add to cart" href="/add-to-cart/{{i.id}}/">Add to cart</a>
+									</div>
+								</div>
+							</div>
+							<div class="product-content">
+								<h3><a href="/productref/{{i.slug}}/">{{i.name}}</a></h3>
+								<div class="product-price">
+									<span>{{i.price}}</span>
+								</div>
+							</div>
+						</div>
+						{% endfor %}
+						<!-- End Single Product -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	<!-- End Most Popular Area -->
+	
+	
+	{% endblock content %}

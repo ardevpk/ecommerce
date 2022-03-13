@@ -1,0 +1,292 @@
+{% extends "base.html" %}
+{% block title %}E-Shop{% endblock %}
+  {% block content %}
+	
+
+
+	<!-- Slider Area -->
+	<section class="hero-slider">
+		<!-- Single Slider -->
+		<div class="single-slider">
+			<div class="container">
+				<div class="row no-gutters">
+					<div class="col-lg-9 offset-lg-3 col-12">
+						<div class="text-inner">
+							<div class="row">
+								<div class="col-lg-7 col-12">
+									<div class="hero-text">
+										<h1><span>UP TO 70% OFF </span>Wholesale Products</h1>
+										<p>Shezad Electronics Provides Electronic Products On Extremely <br>Extra Ordinary Wholesale Price.</p>
+										<div class="button">
+											<a href="#" class="btn">Shop Now!</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--/ End Single Slider -->
+	</section>
+	<!--/ End Slider Area -->
+
+	
+	<!-- Start Product Area -->
+	{% if params %}
+    <div class="product-area section">
+            <div class="container">
+				<div class="row">
+					<div class="col-12">
+						<div class="section-title">
+							<h2>Trending Item</h2>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-12">
+						<div class="product-info">
+							<div class="nav-main">
+								<!-- Tab Nav -->
+								<ul class="nav nav-tabs" id="myTab" role="tablist">
+									
+									
+								{% for i in tags %}
+								  
+								{% if forloop.counter == 1 %}
+								{% if i != 'hot' %}
+								<li class="nav-item active"><a class="nav-link active" data-toggle="tab" href="#{{i}}" role="tab">{{ i }}</a></li>
+								{% endif %}
+								{% elif i != 'hot' %}
+								<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#{{ i }}" role="tab">{{ i }}</a></li>
+								
+								{% endif %}
+								
+								  
+								{% endfor %}
+								</ul>
+								<!--/ End Tab Nav -->
+							</div>
+							
+							<div class="tab-content" id="myTabContent">
+								
+								{% for tag in tags %}
+								<!-- Start Single Tab -->
+								  
+								
+								{% if forloop.counter == 1 %}
+								  
+								<div class="tab-pane fade show active" id="{{tag}}" role="tabpanel">
+									{% else %}
+									<div class="tab-pane fade show" id="{{tag}}" role="tabpanel">
+									{% endif %}
+									<div class="tab-single">
+										<div class="row">
+											{% for i in params %}
+											{% if i.tag == tag %}
+											<div class="col-xl-3 col-lg-4 col-md-4 col-12">
+												<div class="single-product">
+													<div class="product-img">
+														<a>
+															<img class="default-img" src="{{i.image}}" alt="#">
+															<img class="hover-img" src="{{i.image}}" alt="#">
+														</a>
+														<div class="button-head">
+															<div class="product-action">
+																<a data-toggle="modal" data-target="#{{i.id}}" title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick Shop</span></a>
+																<a title="Wishlist" href="#"><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
+															</div>
+															<div class="product-action-2">
+																<a title="Add to cart" href="/add-to-cart/{{i.id}}/">Add to cart</a>
+															</div>
+														</div>
+													</div>
+													<div class="product-content">
+														  <h3><a href="/productref/{{i.slug}}">{{i.name}}</a></h3>
+														  <div class="product-price">
+															  <span>{{i.price}}</span>
+															</div>
+													</div>
+												</div>
+											</div>
+													{% endif %}
+													{% endfor %}
+											</div>
+										</div>
+									</div>
+									<!--/ End Single Tab -->
+									{% endfor %}								
+								</div>
+						</div>
+					</div>
+				</div>
+            </div>
+			</div>
+	<!-- End Product Area -->
+	{% endif %}
+
+
+	
+	<!-- {% if 'hot' in tags %} -->
+	{% for tag in tags %}
+	  
+	<!-- Start Most Popular -->
+	<div class="product-area most-popular section">
+        <div class="container">
+            <div class="row">
+				<div class="col-12">
+					<div class="section-title">
+						<h2>{{tag}}</h2>
+					</div>
+				</div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="owl-carousel popular-slider">
+						<!-- Start Single Product -->
+						{% for i in params %}
+						  {% if i.tag == tag %}
+						<div class="single-product">
+							<div class="product-img">
+								<a href="#">
+									<img class="default-img" src="{{i.image}}" alt="#">
+									<span class="new">New</span>
+								</a>
+								<div class="button-head">
+									<div class="product-action">
+										<a data-toggle="modal" data-target="#{{i.id}}" title="Quick View" href="#"><i class=" ti-eye"></i><span>Quick Shop</span></a>
+										<a title="Wishlist" href="#"><i class=" ti-heart "></i><span>Add to Wishlist</span></a>
+									</div>
+									<div class="product-action-2">
+										<a title="Add to cart" href="/add-to-cart/{{i.id}}/">Add to cart</a>
+									</div>
+								</div>
+							</div>
+							<div class="product-content">
+								<h3><a href="/productref/{{i.slug}}/">{{i.name}}</a></h3>
+								<div class="product-price">
+									<span>{{i.price}}</span>
+								</div>
+							</div>
+						</div>
+						{% endif %}
+						{% endfor %}
+						<!-- End Single Product -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	<!-- End Most Popular Area -->
+	
+	{% endfor %}
+	<!-- {% endif %} -->
+	
+
+	{% for i in params %}
+	  
+	
+	<!-- Modal -->
+    <div class="modal fade" id="{{i.id}}" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="ti-close" aria-hidden="true"></span></button>
+				</div>
+				<div class="modal-body">
+					<div class="row no-gutters">
+						<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+							<!-- Product Slider -->
+								<div class="product-gallery">
+									<div class="quickview-slider-active">
+										<div class="single-slider">
+											<img src="https://via.placeholder.com/569x528" alt="#">
+										</div>
+										<div class="single-slider">
+											<img src="https://via.placeholder.com/569x528" alt="#">
+										</div>
+										<div class="single-slider">
+											<img src="https://via.placeholder.com/569x528" alt="#">
+										</div>
+										<div class="single-slider">
+											<img src="https://via.placeholder.com/569x528" alt="#">
+										</div>
+									</div>
+								</div>
+							<!-- End Product slider -->
+						</div>
+						<div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+							<div class="quickview-content">
+								<h2>Flared Shift Dress</h2>
+								<div class="quickview-ratting-review">
+									<div class="quickview-stock">
+										<span><i class="fa fa-check-circle-o"></i> in stock</span>
+									</div>
+								</div>
+								<h3>Rs.{{i.price}}</h3>
+								<div class="quickview-peragraph">
+									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia iste laborum ad impedit pariatur esse optio tempora sint ullam autem deleniti nam in quos qui nemo ipsum numquam.</p>
+								</div>
+								<div class="size">
+									<div class="row">
+										<div class="col-lg-6 col-12">
+											<h5 class="title">Size</h5>
+											<select>
+												<option selected="selected">s</option>
+												<option>m</option>
+												<option>l</option>
+												<option>xl</option>
+											</select>
+										</div>
+										<div class="col-lg-6 col-12">
+											<h5 class="title">Color</h5>
+											<select>
+												<option selected="selected">orange</option>
+												<option>purple</option>
+												<option>black</option>
+												<option>pink</option>
+											</select>
+										</div>
+									</div>
+								</div>
+								<div class="quantity">
+									<!-- Input Order -->
+									<form action="/add-to-cart/{{i.id}}/" method="post"> {% csrf_token %}
+									<div class="input-group">
+										
+										<input type="text" name="quant" class="input-number" data-min="1" data-max="1000" value="1">
+									</div>
+								</div>
+								<div class="add-to-cart">
+									<button type="submit" class="btn">Add to cart</button>
+								</div>
+							</form>
+								<div class="default-social">
+									<h4 class="share-now">Share:</h4>
+									<ul>
+										<li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+										<li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+										<li><a class="youtube" href="#"><i class="fa fa-pinterest-p"></i></a></li>
+										<li><a class="dribbble" href="#"><i class="fa fa-google-plus"></i></a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+</div>
+{% endfor %}
+<!-- Modal end -->
+	
+
+
+
+
+
+
+
+	
+	{% endblock content %}
