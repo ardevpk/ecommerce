@@ -1,0 +1,125 @@
+{% load static %}
+{% block content %}
+<!-- <style>
+   .badge {
+      padding-left: 9px;
+      padding-right: 9px;
+      -webkit-border-radius: 9px;
+      -moz-border-radius: 9px;
+      border-radius: 9px;
+    }
+    
+    .label-warning[href],
+    .badge-warning[href] {
+      background-color: #c67605;
+    }
+</style> -->
+     <!-- STRAT NAVBAR -->
+  <div id="navbar">
+    <nav class="navbar navbar-expand-lg fixed-top navbar-custom sticky sticky-dark" id="main-menu">
+     <div class="container">
+      <!-- LOGO -->
+      <a class="navbar-brand logo text-uppercase" href="/">
+       <img alt="" class="logo-light" height="24" src="{% static 'assets/img/logo-light.png' %}"/>
+       <img alt="" class="logo-dark" height="24" src="{% static 'assets/img/logo-dark.png' %}"/>
+      </a>
+      <button aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbarCollapse" data-bs-toggle="collapse" type="button">
+       <i class="mdi mdi-menu">
+       </i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+       <ul class="navbar-nav navbar-center mx-auto" id="navbar-navlist">
+        <li class="nav-item">
+         <a class="nav-link" data-scroll="" href="/">
+          Home
+         </a>
+        </li>
+        <li class="nav-item">
+         <a class="nav-link" data-scroll="" href="/domain/">
+          Domain
+         </a>
+        </li>
+        <!-- <li class="nav-item">
+                             <a data-scroll href="#features" class="nav-link">Features</a>
+                         </li> -->
+        <li class="nav-item">
+         <a class="nav-link" data-scroll="" href="/hosting/">
+          hosting
+         </a>
+        </li>
+        <li class="nav-item">
+         <a class="nav-link" data-scroll="" href="/pricing/">
+          Pricing
+         </a>
+        </li>
+        <li class="nav-item">
+         <a class="nav-link" data-scroll="" href="/contact/">
+          Contact
+         </a>
+        </li>
+        <li class="nav-item">
+         <a class="nav-link" data-scroll="" href="/faq/">
+          FAQs
+         </a>
+        </li>
+       </ul>
+       {% if request.user.is_authenticated %}
+       <div class="nav_btn_div">
+        <a href="{% url 'profile' %}">
+         <button type="button">
+          {{request.user.username}}
+         </button>
+        </a>
+       </div>
+       <div class="nav_btn_div">
+        <a href="{% url 'logout' %}">
+         <button type="button">
+          logout
+         </button>
+        </a>
+       </div>
+       {% else %}
+       <div class="nav_btn_div">
+        <a href="{% url 'signin' %}">
+         <button type="button">
+          Sign In
+         </button>
+        </a>
+       </div>
+       <div class="nav_btn_div">
+        <a href="{% url 'signup' %}">
+         <button type="button">
+          Sign Up
+         </button>
+        </a>
+      </div>
+       {% endif %}
+       <div class="nav-button">
+        <ul class="list-inline nav-social d-lg-inline-block mb-0">
+         <li class="list-inline-item ps-1">
+          <a href="#">
+           <i class="mdi mdi-facebook">
+           </i>
+          </a>
+         </li>
+         <li class="list-inline-item ps-1">
+          <a href="/cart/">
+           <i class="mdi mdi-cart">
+         </i>
+          </a>
+          <!-- <span class='badge badge-warning' id='lblCartCount'> 5 </span> -->
+         </li>
+         <li class="list-inline-item ps-1">
+          <a href="#">
+           <i class="mdi mdi-linkedin">
+           </i>
+          </a>
+         </li>
+        </ul>
+       </div>
+      </div>
+     </div>
+    </nav>
+   </div>
+   <!-- END NAVBAR -->
+{% endblock content %}

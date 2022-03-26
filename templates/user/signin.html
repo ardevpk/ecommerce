@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+<meta charset="utf-8"/>
+   {% load static %}
+
+  <title>
+   Signin
+  </title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta content="Premium Bootstrap 4 Landing Page Template" name="description"/>
+  <meta content="bootstrap 4, premium, marketing, multipurpose" name="keywords"/>
+  <meta content="Themesdesign" name="author"/>
+  <!-- favicon -->
+  <link href="{% static 'assets/img/favicon.ico' %}" rel="shortcut icon"/>
+  <!-- css -->
+  <link href="{% static 'assets/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css"/>
+  <!-- icon -->
+  <link href="{% static 'assets/css/materialdesignicons.min.css' %}" rel="stylesheet" type="text/css"/>
+  <!-- bootstrap -->
+  <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" rel="stylesheet"/>
+  <link href="{% static 'assets/css/allpage.css' %}" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  
+  <!-- Sign_in_section -->
+  <form action="/signin/" method="post"> {% csrf_token %}
+  <section class="signin_card_section">
+   <div class="container">
+    <div class="signin_card_body">
+     <div class="signin_card_tittle_div text-center">
+      <h3>
+       Sign In
+      </h3>
+     </div>
+     <div class="signin_card_input_feild_div">
+      <div class="signin_card_input_div">
+       <p>
+        Email Or Username
+       </p>
+       <input placeholder="Your Username Or Email" name="useremail" type="name"/>
+      </div>
+      <div class="signin_card_input_div">
+       <p>
+        Password
+       </p>
+       <input placeholder="Password" name="password" type="password"/>
+      </div>
+      <div class="signin_card_check_btn_div">
+       <p><a href="/forget/">forget password?</a></p>
+      </div>
+      <div class="signin_card_btn_div">
+       <button type="submit">
+        Sign In
+       </button>
+      </div>
+      <div class="signin_card_last_text">
+       <p>
+        Dont't have an account?
+        <a href="{% url 'signup' %}">
+         Sign Up
+        </a>
+        .
+       </p>
+      </div>
+
+      {% if messages %}
+        {% for msg in messages %}
+        {% if forloop.last %}
+      <div class="alert alert-warning" role="alert">
+        {{msg}}!
+      </div>
+      {% endif %}
+        {% endfor %}
+      {% endif %}
+
+
+     </div>
+    </div>
+   </div>
+  </section>
+</form>
+  <!-- javascript -->
+  <script src="{% static 'assets/js/bootstrap.bundle.min.js' %}">
+  </script>
+  <script src="{% static 'assets/js/smooth-scroll.polyfills.min.js' %}">
+  </script>
+  <script src="{% static 'assets/js/gumshoe.polyfills.min.js' %}">
+  </script>
+  <!-- unicons icon -->
+  <script src="{% static 'assets/js/unicons.js' %}">
+  </script>
+ </body>
+</html>

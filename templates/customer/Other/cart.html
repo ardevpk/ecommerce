@@ -1,0 +1,185 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block title %}Cart{% endblock title %}
+{% block css %}
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+    {% endblock css %}
+    {% block content %}
+	<!-- Breadcrumbs -->
+	<div class="breadcrumbs">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div class="bread-inner">
+						<ul class="bread-list">
+							<li><a href="/">Home<i class="ti-arrow-right"></i></a></li>
+							<li class="active"><a href="/cart/">Cart</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- End Breadcrumbs -->
+			
+	<!-- Shopping Cart -->
+	<div class="shopping-cart section">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<!-- Shopping Summery -->
+					<table class="table shopping-summery">
+						<thead>
+							<tr class="main-hading">
+								<th>Sno</th>
+								<th>Product</th>
+								<th>Name</th>
+								<th class="text-center">Price/Box</th>
+								<th class="text-center">Qty/Piece</th>
+								<th class="text-center">Total</th> 
+								<th class="text-center"><i class="ti-trash remove-icon"></i></th>
+							</tr>
+						</thead>
+						<tbody>
+							{% if orders %}
+							{% for product in products %}
+							<tr>
+								<td data-title="Sno">{{forloop.counter}}</td>
+								<td class="image" data-title="Product"><img src="/media/{{product.image}}" alt="https://via.placeholder.com/100x100"></td>
+								<td class="product-des" data-title="Name">
+									<!-- <p class="product-name"><a href="#">{{D.prodTag}}</a></p> -->
+									<p class="product-des"><a href="/product/{{product.cartSlug}}/">{{product.name}}</a>.</p>
+								</td>
+								<td class="price" data-title="Price/Box"><span>Rs.{{product.priceByBox}}</span></td>
+								<td class="qty" data-title="Qty/Piece">
+									<!-- Input Order -->
+									<div class="input-group">
+										<div class="button minus">
+											<button type="button" class="btn btn-primary btn-number" onclick="window.location.href='/quanDec/{{product.id}}/'" data-type="minus" >
+												<i class="ti-minus"></i>
+											</button>
+										</div>
+										{% for prodquan in prodQuan %}
+										{% if forloop.counter == forloop.parentloop.counter %}
+										<input type="button" class="input-number" value="{{prodquan}}">
+										{% endif %}
+										{% endfor %}
+										<div class="button plus">
+											<button type="button" class="btn btn-primary btn-number" onclick="window.location.href='/quanInc/{{product.id}}/'" data-type="plus" data-field="quant[1]">
+												<i class="ti-plus"></i>
+											</button>
+										</div>
+									</div>
+									<!--/ End Input Order -->
+								</td>
+								<td class="total-amount" data-title="Total"><span>Rs.</span></td>
+								<td class="action" data-title="Remove"><a href="/prodDelete/{{product.id}}"><i class="ti-trash remove-icon"></i></a></td>
+							</tr>
+							{% endfor %}
+							{% endif %}
+						</tbody>
+					</table>
+					<!--/ End Shopping Summery -->
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12">
+					<!-- Total Amount -->
+					<div class="total-amount">
+						<div class="row">
+							<div class="col-lg-8 col-md-5 col-12">
+								<div class="left">
+								</div>
+							</div>
+							<div class="col-lg-4 col-md-7 col-12">
+								<div class="right">
+									<ul>
+										{% if tA %}
+										
+										<li>Cart Subtotal<span>Rs.{{tA}}</span></li>
+										{% else %}
+
+										<li>Cart Subtotal<span>Rs. 0.00</span></li>
+										{% endif %}
+										<li>Shipping<span>Free</span></li>
+										<li>You Save<span>%10</span></li>
+										<li class="last">You Pay<span>Rs. {% if tPay %}{{tPay}}{% else %}0.00{% endif %} </span></li>
+									</ul>
+									<div class="button5">
+										<a href="/checkout/" class="btn">Checkout</a>
+										<a href="/products/" class="btn">Continue shopping</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--/ End Total Amount -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--/ End Shopping Cart -->
+			
+	<!-- Start Shop Services Area  -->
+	<section class="shop-services section">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 col-md-6 col-12">
+					<!-- Start Single Service -->
+					<div class="single-service">
+						<i class="ti-rocket"></i>
+						<h4>Free shiping</h4>
+						<p>Orders over Rs.1000</p>
+					</div>
+					<!-- End Single Service -->
+				</div>
+				<div class="col-lg-3 col-md-6 col-12">
+					<!-- Start Single Service -->
+					<div class="single-service">
+						<i class="ti-reload"></i>
+						<h4>Free Return</h4>
+						<p>No Time Limit</p>
+					</div>
+					<!-- End Single Service -->
+				</div>
+				<div class="col-lg-3 col-md-6 col-12">
+					<!-- Start Single Service -->
+					<div class="single-service">
+						<i class="ti-lock"></i>
+						<h4>Sucure Payment</h4>
+						<p>100% secure payment</p>
+					</div>
+					<!-- End Single Service -->
+				</div>
+				<div class="col-lg-3 col-md-6 col-12">
+					<!-- Start Single Service -->
+					<div class="single-service">
+						<i class="ti-tag"></i>
+						<h4>Best Peice</h4>
+						<p>Guaranteed price</p>
+					</div>
+					<!-- End Single Service -->
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- End Shop Newsletter -->
+	<br>
+    {% endblock content %}
+    {% block js %}
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+	{% endblock js %}

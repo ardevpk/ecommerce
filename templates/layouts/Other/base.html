@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zxx">
+<head>
+	<!-- Meta Tag -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name='copyright' content=''>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<!-- Title Tag  -->
+    <title> E-Shop -{% block title %}{% endblock %}</title>
+	{% load static %}
+	<!-- Favicon -->
+	<link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+	{% block css %}
+	{% endblock css %}
+
+	
+	
+</head>
+<body class="js">
+{% include "includes/header.html" %}
+
+
+
+{% block content %} {% endblock %}
+
+
+
+    
+{% include "includes/footer.html" %}
+
+
+
+{% block js %}
+{% endblock js %}
+</body>
+</html>

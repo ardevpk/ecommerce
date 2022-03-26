@@ -1,0 +1,222 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+{% block title %}Home{% endblock title %}
+{% block css %}
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+    {% endblock css %}
+    {% block content %}
+
+    <section class="header_section">
+      <div class="container">
+        <div class="header_text_div">
+          <h3>UP TO 70% OFF.</h3>
+          <h2>Wholesale Products</h2>
+          <p>
+            Shezad Electronic Provides Electronic Products On Extremely Extra
+            Ordinary Wholesale Price.
+          </p>
+          <button class="btn btn-warning">Shop</button>
+        </div>
+      </div>
+    </section>
+
+
+    {% for brand in brands %}
+    <section class="mt-5 mb-5">
+      <div class="container">
+        <div class="cards_title_div">
+          <h3 class="fw-bold">{{brand}}</h3>
+        </div>
+        <div class="row">
+            {%  for product in products %}
+            {% if product.brand == brand %}
+              <div class="col-lg-3 col-md-6 col-sm-12 col-12 mt-4">
+                <div class="cards_body_div">
+                  <div class="cards_img_div">
+                    <img src="/media/{{product.image}}" alt="" />
+                  </div>
+                  <div
+                    class="row p-2 card_heart_div d-flex justify-content-between"
+                  >
+                    <div class="col-lg-10 col-md-10 col-sm-10 col-10">
+                      <small
+                        >{{product.name}}</small
+                      >
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-2 d-flex gap-2">
+                      <a class="a_other" data-bs-toggle="modal" data-bs-target="#exampleModal{{product.id}}"><i class="bi bi-cart-plus"></i></a>
+                      <a class="a_other" id="{{product.id}}" onclick="addfav(`{{product.id}}`)">
+                        {% if product.id in favourite %}
+                        <i class="bi bi-heart-fill"></i>
+                        {% else %}
+                        <i class="bi bi-heart"></i>
+                        {% endif %}
+                      </a>
+                    </div>
+                  </div>
+                  <div class="p-2 card_inner_inner_text_div">
+                    <small>Rs: {% widthratio product.priceByBox product.peicePerBox 1 %}<sub>/ Peice</sub></small>
+                    <br>
+                    <small>Rs: {{product.priceByBox}}<sub>/ Box</sub></small>
+                  </div>
+                </div>
+              </div>
+              {% endif %}
+            {% endfor %}
+        </div>
+      </div>
+    </section>
+    {% endfor %}
+
+
+
+
+  
+    <section>
+      {% for product in products %}
+      <div class="modal fade" id="exampleModal{{product.id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Quantity - Product Name: {{product.name}}</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+
+              <div class="input-group">
+                <h4>By Box</h4>
+                <span class="input-group-btn">
+                    <button class="btn btn-white btn-minuse" type="button">-</button>
+                </span>
+                <input type="text" class="form-control no-padding add-color text-center height-25" id="box" value="0" disabled>
+                <span class="input-group-btn">
+                    <button class="btn btn-red btn-pluss" type="button">+</button>
+                </span>
+            </div>
+
+
+            <div class="input-group">
+              <h4>By Peice</h4>
+              <span class="input-group-btn">
+                  <button class="btn btn-white btn-minuse1" type="button">-</button>
+              </span>
+              <input type="text" class="form-control no-padding add-color text-center height-25" id="peice" value="0" disabled>
+              <span class="input-group-btn">
+                  <button class="btn btn-red btn-pluss1" type="button">+</button>
+              </span>
+          </div>
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" onclick="addcart(`{{product.id}}`)">Save changes</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </section>
+
+
+
+
+    {% endblock content %}
+    {% block js %}
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+    
+<!-- Script Start Crousel -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+
+
+  $('.btn-minuse').on('click', function(){
+    if ($(this).parent().siblings('input').val() > 0) {
+      $(this).parent().siblings('input').val(parseInt($(this).parent().siblings('input').val()) - 1);
+      var minus = document.getElementsByClassName("peice");
+      Array.prototype.forEach.call(minus, function(min) {
+        min.setAttribute('0');
+      });
+    }
+})
+$('.btn-pluss').on('click', function(){
+    $(this).parent().siblings('input').val(parseInt($(this).parent().siblings('input').val()) + 1)
+    var plus = document.getElementsByClassName("peice");
+    Array.prototype.forEach.call(plus, function(pl) {
+      pl.setAttribute('0');
+    });
+})
+
+
+
+
+$('.btn-minuse1').on('click', function(){
+  if ($(this).parent().siblings('input').val() > 0) {
+    $(this).parent().siblings('input').val(parseInt($(this).parent().siblings('input').val()) - 1);
+    document.querySelectorAll('box').value = 0;
+  }
+})
+$('.btn-pluss1').on('click', function(){
+  $(this).parent().siblings('input').val(parseInt($(this).parent().siblings('input').val()) + 1)
+  document.querySelectorAll('box').value = 0;
+})
+
+
+
+  
+function addfav(id) {
+  if (document.getElementById(id).innerHTML == `<i class="bi bi-heart-fill"></i>`) {
+    $("#"+id).html('<i class="bi bi-heart"></i>');
+  } else {
+    $("#"+id).html('<i class="bi bi-heart-fill"></i>');
+  }
+  var token = '{{ csrf_token }}';
+  var formData = new FormData()
+  formData.append('id', id)
+  $.ajax({
+      url: "/addtofav/",
+      type: 'POST',
+      data: formData,
+      headers: { 'X-CSRFToken': token },
+      processData: false,
+      contentType: false,
+      success: function (response) {
+          let values = response['data']
+          if (values == false){
+              output = `<i class="bi bi-heart"></i>`
+              document.getElementById(id).innerHTML = output
+              document.getElementById("lblCartCount11").innerText = parseInt(document.getElementById("lblCartCount11").innerText) - 1
+                
+            }
+          else{
+            output = `<i class="bi bi-heart-fill"></i>`
+            document.getElementById(id).innerHTML = output
+            document.getElementById("lblCartCount11").innerText = parseInt(document.getElementById("lblCartCount11").innerText) + 1
+              
+      }},
+      failure: function () {
+        swal({
+            title: `Failure`,
+            text: "Something Went Wrong Please Try Again Later!",
+            icon: "error",
+          })
+      }
+  })
+}
+</script>
+    {% endblock js %}

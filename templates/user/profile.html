@@ -1,0 +1,172 @@
+{% extends "main/base.html" %}
+{% load static %}
+{% block title %}
+  Profile
+{% endblock title %}
+{% block css %}
+  <link href="{% static 'assets/css/bootstrap.min.css' %}" rel="stylesheet" type="text/css"/>
+  <!-- icon -->
+  <link href="{% static 'assets/css/materialdesignicons.min.css' %}" rel="stylesheet" type="text/css"/>
+  <!-- bootstrap -->
+  <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" rel="stylesheet"/>
+  <link href="{% static 'assets/css/allpage.css' %}" rel="stylesheet" type="text/css">
+  {% endblock css %}
+  {% block content %}
+  
+  <section class="profile_page_section">
+   <div class="profile_page_banner_main_div">
+    <div class="profile_page_banner" style="background:url('https://s-media-cache-ak0.pinimg.com/originals/84/21/d1/8421d1b53991d565a0e07d0d88cc83f2.jpg') no-repeat;">
+    </div>
+    <div class="row profile_page_loggedin_user">
+     <div class="col-sm-3 col-md-3">
+      <div class="profile_page_user_profile">
+       <img src="{% static 'assets/img/downlaod.png' %}"/>
+      </div>
+     </div>
+    </div>
+   </div>
+   <div class="container d-flex justify-content-center">
+    <div class="profile_page_title">
+     <h3>
+      Kevin Smith
+     </h3>
+     <p>
+      Advisor and Consultant at Stripe Inc.
+     </p>
+    </div>
+   </div>
+   <div class="profile_card_border_div">
+   </div>
+   <div class="profile_page_card_main_div">
+    <div class="container pt-5 pb-5">
+     <div class="row">
+      <div class="col-lg-4 col-md-6 col-12 mt-4">
+       <div class="profile_page_card1_div">
+        <div class="profile_page_card1_text_div d-flex gap-4 pt-2">
+         <i class="bi bi-telephone-fill">
+         </i>
+         <label for="">
+          +79110018830 (Office)
+         </label>
+        </div>
+        <div class="profile_page_card1_text_div d-flex gap-4 pt-2">
+         <i class="bi bi-telephone-fill">
+         </i>
+         <label for="">
+          +79110018830 (Mobile)
+         </label>
+        </div>
+        <div class="profile_page_card1_text_div d-flex gap-4 pt-2">
+         <i class="bi bi-envelope">
+         </i>
+         <label for="">
+          <a href="http://Dextersol.com">
+           Dextersol.com
+          </a>
+         </label>
+        </div>
+        <div class="profile_page_rating_div d-flex gap-3 pt-4">
+         <h3>
+          4.5
+         </h3>
+         <i class="bi bi-star-fill">
+         </i>
+         <i class="bi bi-star-fill">
+         </i>
+         <i class="bi bi-star-fill">
+         </i>
+         <i class="bi bi-star-fill">
+         </i>
+         <i class="bi bi-star-fill">
+         </i>
+        </div>
+        <div class="profile_page_card1_btn_div">
+       <a href="/server/" style="color: white;">
+        <button>server
+        </button></a>
+        </div>
+       </div>
+      </div>
+      <div class="col-lg-4 col-md-6 col-12 mt-4">
+       <div class="profile_page_card2_div">
+        <div class="profile_page_card2_img_div text-center">
+         <img alt="" src="{% static 'assets/img/downlaod.png' %}"/>
+        </div>
+        <div class="profile_page_card2_btn_div">
+         <button>
+          <i class="bi bi-envelope">
+          </i>
+          Chat
+         </button>
+        </div>
+       </div>
+      </div>
+      <div class="col-lg-4 col-md-6 col-12 mt-4">
+       <div class="profile_page_card1_div">
+        <div class="profile_page_card1_text_div d-flex gap-4 pt-2">
+         <i class="bi bi-telephone-fill">
+         </i>
+         <label for="">
+          +79110018830 (Office)
+         </label>
+        </div>
+        <div class="profile_page_card1_text_div d-flex gap-4 pt-2">
+         <i class="bi bi-telephone-fill">
+         </i>
+         <label for="">
+          +79110018830 (Mobile)
+         </label>
+        </div>
+        <div class="profile_page_card1_text_div d-flex gap-4 pt-2">
+         <i class="bi bi-envelope">
+         </i>
+         <label for="">
+          <a href="http://Dextersol.com">
+           Dextersol.com
+          </a>
+         </label>
+        </div>
+        <div class="profile_page_rating_div d-flex gap-3 pt-4">
+         <h3>
+          4.5
+         </h3>
+         <i class="bi bi-star-fill">
+         </i>
+         <i class="bi bi-star-fill">
+         </i>
+         <i class="bi bi-star-fill">
+         </i>
+         <i class="bi bi-star-fill">
+         </i>
+         <i class="bi bi-star-fill">
+         </i>
+        </div>
+        <div class="profile_page_card3_btn_div">
+         <button>
+          <i class="bi bi-envelope">
+          </i>
+          Chat
+         </button>
+        </div>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </section>
+  
+ 
+  {% endblock content %}
+  {% block js %}
+  <!-- javascript -->
+  <script src="{% static 'assets/js/bootstrap.bundle.min.js' %}">
+  </script>
+  <script src="{% static 'assets/js/smooth-scroll.polyfills.min.js' %}">
+  </script>
+  <script src="{% static 'assets/js/gumshoe.polyfills.min.js' %}">
+  </script>
+  <!-- unicons icon -->
+  <script src="{% static 'assets/js/unicons.js' %}">
+  </script>
+  {% endblock js%}

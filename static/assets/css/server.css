@@ -1,0 +1,123 @@
+@import url("https://fonts.googleapis.com/css2?family=Karla:wght@400;500&family=Lato:wght@400;700&display=swap");
+body {
+  font-family: "Karla", sans-serif;
+  overflow-x: hidden !important;
+  position: relative;
+  background-color: #242527;
+  color: #f6f6f6;
+  opacity: 0.8;
+}
+.navbar ul li a {
+  color: #fff !important;
+}
+.nav_btn_div {
+  margin-right: 10px;
+  margin-top: 0px;
+}
+.nav_btn_div button {
+  height: 35px;
+  width: 100px;
+  background: #1e57c7;
+  border: 1px solid #1e57c7;
+  border-radius: 5px;
+  color: #fff;
+}
+.navbar-dark .navbar-toggler {
+  box-shadow: none;
+  border: none;
+}
+.navsection {
+  background-color: #242527;
+  border-bottom: 1px solid #242527;
+}
+.nav-social a {
+  background: rgba(255, 255, 255, 0.1);
+  width: 36px;
+  height: 36px;
+  display: inline-block;
+  text-align: center;
+  border-radius: 50%;
+  transition: all 0.5s;
+}
+.nav-social a i {
+  font-size: 16px;
+  line-height: 36px;
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+.nav-social a i:hover {
+  color: #ffffff !important;
+}
+.navbar-white .nav-social a i:hover {
+  color: #1e57c7 !important;
+}
+.dashboard_section {
+  margin-top: 100px;
+}
+.dashboard_title_div {
+  margin-bottom: 50px;
+}
+.under_cards {
+  background-color: #414142;
+  color: #fff;
+  text-align: start;
+  padding: 20px;
+  height: auto;
+  min-height: 80px;
+  width: 100%;
+  border-radius: 10px;
+  text-align: center;
+  margin-bottom: 60px;
+  margin-top: 30px;
+}
+.dashboard_card_main_div {
+  margin-top: 20px;
+  background-color: #414142;
+  color: #fff;
+  text-align: start;
+  padding: 20px;
+  height: auto;
+  min-height: 80px;
+  width: 100%;
+  max-width: 300px;
+  border-radius: 10px;
+}
+.dashboard_card_text_div {
+  padding-top: 19px;
+  padding-bottom: 10px;
+}
+.dashboard_table_section {
+  margin-top: 100px;
+}
+.table {
+  color: #fff;
+  border: 1px solid #fff;
+}
+.table td {
+  text-align: center;
+  font-size: 16px;
+}
+.table tbody tr:hover {
+  background: #979595;
+  color: #242527;
+}
+.dashboard_table_main {
+  width: 100%;
+  overflow: scroll;
+  margin-left: 50px;
+}
+.dashboard_table_main::-webkit-scrollbar {
+  width: 0;
+}
+@media (max-width: 768px) {
+  .dashboard_card_main_div {
+    margin-left: 25px;
+  }
+  .dashboard_table_main {
+    margin-left: 0px;
+  }
+}
+@media (min-width: 1200px){
+  .container {
+    max-width: 1498px !important;
+}
+}

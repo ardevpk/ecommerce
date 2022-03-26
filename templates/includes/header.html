@@ -1,0 +1,172 @@
+{% block content %}
+{% load static %}
+    <section class="navbar_section">
+      <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-dark">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="/">EShop.</a>
+            <button
+              class="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul
+                class="navbar-nav m-auto mb-2 mb-lg-0 d-flex gap-0 gap-md-3 gap-sm-1"
+              >
+                <li class="nav-item">
+                  <a 
+                  {% if request.resolver_match.url_name == None %} class="nav-link active" {% else %} class="nav-link" {% endif %} aria-current="page" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a 
+                  {% if request.resolver_match.url_name == "products" %} class="nav-link active" {% else %} class="nav-link" {% endif %} aria-current="page" href="/products/"
+                    >Products</a
+                  >
+                </li>
+                <li class="nav-item dropdown">
+                  <a
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    id="navbarDropdown"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Brands
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    
+										{% for brand in products %}
+                      <li><a class="dropdown-item" href="/brand/{{brand.brand}}/">{{brand.brand}}</a></li>
+                    {% endfor %}
+
+                    <li><hr class="dropdown-divider" /></li>
+                    <li>
+                      <a class="dropdown-item" href="#">All</a>
+                    </li>
+                  </ul>
+                </li>
+
+                
+                <li class="nav-item dropdown">
+                  <a
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    id="navbarDropdown"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Categories
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    
+										{% for cat in products %}
+                      <li><a class="dropdown-item" href="/category/{{cat.category}}/">{{cat.category}}</a></li>
+                    {% endfor %}
+
+                    <li><hr class="dropdown-divider" /></li>
+                    <li>
+                      <a class="dropdown-item" href="#">All</a>
+                    </li>
+                  </ul>
+                </li>
+
+
+
+                
+
+                
+								{% if user.is_authenticated %}
+                  <li class="nav-item">
+                    <a 
+                    {% if request.resolver_match.url_name == "profile" %} class="nav-link active" {% else %} class="nav-link" {% endif %} aria-current="page" href="/profile/">{{request.user.username}}</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/logout/"
+                      >Logout</a
+                    >
+                  </li>
+                  {% else %}
+                    <li class="nav-item">
+                      <a class="nav-link active" aria-current="page" href="/signin/"
+                        >Signin</a
+                      >
+                    </li>
+    
+    
+                    <li class="nav-item">
+                      <a class="nav-link active" aria-current="page" href="/signup/"
+                        >Signup</a
+                      >
+                    </li>
+                  {% endif %}
+
+                  
+									{% if products %}
+                    <div class="d-flex gap-3">
+                      <li class="nav-item" >
+                        <a 
+                        {% if request.resolver_match.url_name == "cart" %} class="nav-link active" {% else %} class="nav-link" {% endif %} aria-current="page" href="/cart/">
+                          <i class="bi bi-cart-plus"></i>
+                          <span class="badge badge-warning" id="lblCartCount">
+                            {{ products | length }}
+                          </span>
+                        </a>
+                      </li>
+                  {% else %}
+                    <div class="d-flex gap-3">
+                      <li class="nav-item" >
+                        <a 
+                        {% if request.resolver_match.url_name == "cart" %} class="nav-link active" {% else %} class="nav-link" {% endif %} aria-current="page" href="/cart/">
+                          <i class="bi bi-cart-plus"></i>
+                          <span class="badge badge-warning" id="lblCartCount">
+                            0
+                          </span>
+                        </a>
+                      </li>
+                  {% endif %}
+
+
+
+
+
+									{% if favourite %}
+                      <li class="nav-item">
+                        <a 
+                        {% if request.resolver_match.url_name == "whishlist" %} class="nav-link active" {% else %} class="nav-link" {% endif %}  aria-current="page" href="/whishlist/"
+                          ><i class="bi bi-bag-heart-fill"></i>
+                          <span class="badge badge-warning" id="lblCartCount11">
+                            {{ favourite | length }}
+                          </span></a
+                        >
+                      </li>
+                    {% else %}
+                    <div class="d-flex gap-3">
+                      <li class="nav-item">
+                        <a 
+                        {% if request.resolver_match.url_name == "whishlist" %} class="nav-link active" {% else %} class="nav-link" {% endif %}  aria-current="page" href="/whishlist/"
+                          ><i class="bi bi-bag-heart-fill"></i>
+                          <span class="badge badge-warning" id="lblCartCount11">
+                            0
+                          </span></a
+                        >
+                      </li>
+                    {% endif %}
+
+                  </div>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </section>
+    
+{% endblock %}

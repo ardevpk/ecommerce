@@ -1,0 +1,211 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+body{
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+.navbar_section   {
+    background: #333;
+}
+.navbar-dark .navbar-toggler {
+	border: none;
+	box-shadow: none;
+}
+.header_section {
+	background-image: url(https://via.placeholder.com/1900x700);
+	background-repeat: no-repeat;
+	background-size: cover;
+	height: auto;
+	min-height: 50vh;
+	width: 100%;
+	opacity: 1.7;
+}
+
+.header_text_div {
+	width: 100%;
+	max-width: 600px;
+	margin: auto;
+	padding-top: 100px;
+	/* color: white !important; */
+}
+.cards_body_div {
+	height: auto;
+	min-height: 300px;
+	width: 100%;
+	max-width: 300px;
+	border: 1px solid #ccc;
+	box-shadow: rgba(3, 35, 104, 0.2) 0px 5px 5px -2px;
+	margin: auto;
+}
+.cards_img_div img{
+	width: 100%;
+	max-width: 300px;
+	height: 250px;
+}
+.badge {
+	padding-left: 9px;
+	padding-right: 9px;
+	-webkit-border-radius: 9px;
+	-moz-border-radius: 9px;
+	border-radius: 9px;
+  }
+  
+  .label-warning[href],
+  .badge-warning[href] {
+	background-color: #c67605;
+  }
+  #lblCartCount {
+	  font-size: 12px;
+	  padding: 0 5px;
+	  vertical-align: top;
+	  margin-left: -10px; 
+  }
+  #lblCartCount11 {
+	  font-size: 12px;
+	  padding: 0 5px;
+	  vertical-align: top;
+	  margin-left: -10px; 
+  }
+  .cards_title_div {
+	text-align: center;
+  }
+.cards_title_div h3{
+	border-bottom: 3px solid #c67605;
+	width: 100px;
+	margin: auto;
+}
+.row {
+	--bs-gutter-x: 0.5rem !important;
+}
+
+
+@media (max-width: 768px) {
+	.header_section {
+		height: auto;
+		min-height: 40vh;
+	}
+}
+@media (max-width: 650px) {
+	.cards_img_div img{
+		width: 100%;
+		max-width: 300px;
+		height: 230px;
+	}
+	.cards_body_div {
+		height: auto;
+		min-height: 300px;
+		width: 100%;
+		box-shadow: rgba(3, 35, 104, 0.2) 0px 5px 5px -2px;
+		max-width: 300px;
+	}
+}
+a {
+	color: #fff;
+	text-decoration: none;
+}
+.footer{
+	background:#222;
+	padding: 20px !important;
+}
+.footer .about {
+	padding-right: 50px;
+}
+.footer .single-footer h4 {
+	font-size: 17px;
+	font-weight: 600;
+	color: #fff;
+	text-transform: capitalize;
+	margin-bottom: 15px;
+}
+.footer .about .logo{
+	margin-bottom:20px;
+}
+.footer .about .text{
+	color:#fff;
+	font-weight: 400;
+}
+.footer .about .call {
+	color: #fff;
+	margin-top: 15px;
+	font-weight: 400;
+}
+.footer .about .call span{
+	display: block;
+}
+.footer .about .call a {
+	color: #f7941d;
+	font-size: 20px;
+	font-weight: 600;
+}
+.footer .links ul{
+	padding: 0px;
+}
+.footer .links ul li {
+	display: block;
+	margin-bottom: 8px;
+}
+.footer .links ul li:last-child{
+	margin-bottom:0;
+}
+.footer .links ul li a{
+	color:#fff;
+	font-weight: 400;
+}
+.footer .social .contact ul{
+	padding: 0px;
+}
+.footer .social .contact ul li {
+	color: #fff;
+	display: block;
+	margin-bottom: 4px;
+	font-weight: 400;
+}
+.footer .contact ul li:last-child{
+	margin-bottom:0;
+}
+.footer .social ul {
+	margin-top: 10px;
+}
+.footer .social ul li{
+	display:inline-block;
+	margin-right:25px;
+}
+.footer .social ul li:last-child{
+	margin-right:0;
+}
+.footer .social ul li a{
+	color:#fff;
+	display:block;
+	font-size:16px;
+}
+.footer .social ul li a:hover{
+	color:#F7941D;
+}
+.footer .copyright .inner{
+	border-top:1px solid #eeeeee3d;
+	padding:20px 0;
+}
+.footer .copyright .right{
+	float:right;
+}
+.footer .copyright p{
+	color:#fff;
+}
+.footer .copyright p a{
+	color:#fff;
+	text-decoration:underline;
+}
+.brand_btn_div {
+	display: flex;
+	gap: 5px;
+	flex-wrap: wrap;
+}
+.brand_btn_div button{
+	border: none;
+	background: #F7941D;
+	border-radius: 4px;
+}
+
+.a_other {
+	color: rgb(214, 74, 18) !important;
+}

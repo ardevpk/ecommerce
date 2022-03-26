@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+<meta charset="utf-8"/>
+   {% load static %}
+
+  <title>
+    {% block title %}Dextin{% endblock title %}
+  </title>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta content="Premium Bootstrap 4 Landing Page Template" name="description"/>
+  <meta content="bootstrap 4, premium, marketing, multipurpose" name="keywords"/>
+  <meta content="Themesdesign" name="author"/>
+  <!-- favicon -->
+  <link href="{% static 'assets/img/favicon.ico' %}" rel="shortcut icon"/>
+  {% block css %}
+      
+  {% endblock css %}
+ </head>
+ <body>
+    {% include './header.html' %}
+
+    {% block content %}
+        
+    {% endblock content %}
+
+    {% include './footer.html' %}
+
+    
+  {% block js %}
+      
+  {% endblock js %}
+  
+ </body>
+ </html>
