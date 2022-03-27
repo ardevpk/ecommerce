@@ -32,6 +32,8 @@
 								<th>Sno</th>
 								<th>Product</th>
 								<th>Name</th>
+								<th>Brand</th>
+								<th>Color</th>
 								<th class="text-center">Price/Piece</th>
 								<th class="text-center">Qty/Piece</th>
 								<th class="text-center">Total</th> 
@@ -46,33 +48,35 @@
 									<img src="/media/{{product.image}}/" height="40" width="40" alt="">
 								</td>
 								<td class="product-des" data-title="Name">
-									<p class="product-des"><a style="color: black;" href="/product/{{product.id}}/">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ducimus, dicta!</a>.</p>
+									<p class="product-des"><a style="color: black;" href="/product/{{product.id}}/">{{product.name}}</a></p>
 								</td>
-								<td class="price" data-title="Price/Box"><span>Rs.  {% widthratio product.priceByBox product.peicePerBox 1 %}</span></td>
+								<td class="product-des" data-title="Brand">
+									<p class="product-des"><a style="color: black;" href="/brand/{{product.brand}}/">{{product.brand}}</a></p>
+								</td>
+								<td class="product-des" data-title="Color">
+									<p class="product-des">{{product.color}}</p>
+								</td>
+								<td class="price" data-title="Price/Box">Rs. <span id="pp_{{product.id}}">{% widthratio product.priceByBox product.peicePerBox 1 %}</span></td>
 								<td class="qty" data-title="Qty/Piece">
 									<!-- Input Order -->
-									<div class="input-group">
-										<div class="button minus">
-											<button type="button" class="btn btn-primary btn-number" onclick="window.location.href='/quanDec/{{product.id}}/'" data-type="minus" >
-												<i class="ti-minus"></i>
-											</button>
-										</div>
 										{% for prodquan in prodQuan %}
 										{% if forloop.counter == forloop.parentloop.counter %}
-										<input type="button" class="input-number" value="{{prodquan}}">
+										<div class="input-group">
+											<span class="input-group-btn">
+												<button class="btn btn-white btn-minuse" type="button" id="minus_{{product.id}}" onclick="minus(`{{product.id}}`)">-</button>
+											</span>
+											<input type="number" class="form-control no-padding add-color text-center height-25" id="input_{{product.id}}" value="{{prodquan}}" disabled>
+											<span class="input-group-btn">
+												<button class="btn btn-red btn-pluss" type="button" id="plus_{{product.id}}" onclick="plus(`{{product.id}}`)">+</button>
+											</span>
+										</div>
 										{% endif %}
 										{% endfor %}
-										<div class="button plus">
-											<button type="button" class="btn btn-primary btn-number" onclick="window.location.href='/quanInc/{{product.id}}/'" data-type="plus" data-field="quant[1]">
-												<i class="ti-plus"></i>
-											</button>
-										</div>
-									</div>
 									<!--/ End Input Order -->
 								</td>
 								{% for total in totals %}
 								{% if forloop.counter == forloop.parentloop.counter %}
-								<td class="total-amount" data-title="Total"><span>Rs. {{total}}</span></td>
+								<td class="total-amount" data-title="Total">Rs. <span id="t_{{product.id}}">{{total}}</span></td>
 								{% endif %}
 								{% endfor %}
 								<td class="action" data-title="Remove"><a href="/prodDelete/{{product.id}}"><i class="ti-trash remove-icon"></i></a></td>
@@ -173,4 +177,54 @@
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
       crossorigin="anonymous"
     ></script>
+	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+
+	<script>
+		
+		function minus(id){
+			if (parseInt(document.getElementById("input_"+id).value) > 1) {
+				document.getElementById("input_"+id).value = parseInt(document.getElementById("input_"+id).value) - 1;
+				document.getElementById("t_"+id).innerText = parseInt(parseInt(document.getElementById("t_"+id).innerText) - parseInt(document.getElementById("pp_"+id).innerText));
+				addcart(id);
+			}
+		}
+		
+		function plus(id){
+			document.getElementById("input_"+id).value = parseInt(document.getElementById("input_"+id).value) + 1;
+			document.getElementById("t_"+id).innerText = parseInt(parseInt(document.getElementById("t_"+id).innerText) + parseInt(document.getElementById("pp_"+id).innerText));
+			addcart(id);
+		}
+		
+
+
+		
+function addcart(id) {
+	var token = '{{ csrf_token }}';
+	var formData = new FormData()
+	formData.append('id', id)
+	formData.append('quantity', parseInt(document.getElementById("input_"+id).value))
+	$.ajax({
+		url: "/add-to-cart/",
+		type: 'POST',
+		data: formData,
+		headers: { 'X-CSRFToken': token },
+		processData: false,
+		contentType: false,
+		success: function (response) {
+			let values = response['data']
+			console.log(values)
+			},
+		failure: function () {
+		  swal({
+			  title: `Failure`,
+			  text: "Something Went Wrong Please Try Again Later!",
+			  icon: "error",
+			})
+		}
+	})
+  }
+	</script>
 	{% endblock js %}

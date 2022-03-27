@@ -4,8 +4,8 @@ from django.contrib import admin
 from .models import *
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('brand', 'name', 'category', 'stockByBox', 'color', 'priceByBox')
-    list_filter = ['brand', 'name', 'category', 'stockByBox', 'color', 'priceByBox']
+    list_display = ('brand', 'name', 'category', 'stockByPeice', 'color', 'priceByBox')
+    list_filter = ['brand', 'name', 'category', 'stockByPeice', 'color', 'priceByBox']
 
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('by', 'orderDateTime', 'payment', 'status', 'CheckedBy')

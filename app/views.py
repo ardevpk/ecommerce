@@ -15,8 +15,10 @@ import ast
 def index(request):
     if (request.user.is_verified or EmailAddress.objects.filter(email=request.user.email)[0].verified):
         products = product.objects.all().order_by('category')
+        orders = order.objects.filter(by=request.user, status='INCART')
         brands = product.objects.values_list('brand', flat=True).distinct()
         context = {
+            'orders': [orders] if orders else None,
             'products': products,
             'favourite': [favourite.objects.filter(user=request.user, added=values.added)[0].added for values in favourite.objects.filter(user=request.user)],
             'brands': brands,
@@ -31,16 +33,15 @@ def index(request):
 def idtotal(x, value):
     price = product.objects.get(id=x).priceByBox
     piece = product.objects.get(id=x).peicePerBox
-    return (int(price) / int(piece)) * int(value)
+    return int((int(price) / int(piece)) * int(value))
 
 @login_required(login_url='/signin/', redirect_field_name=None)
 def cart(request):
     if (request.user.is_verified or EmailAddress.objects.filter(email=request.user.email)[0].verified):
-        products = product.objects.all().order_by('category')
-        orders = order.objects.get(by=request.user, status='INCART')
+        orders = order.objects.filter(by=request.user, status='INCART')
         if not order.objects.filter(by=request.user, status='INCART').exists():
-            return render(request, 'customer/cart.html', {'products': products, 'orders': [orders],})
-        orderJson = ast.literal_eval(orders.prodJson)
+            return render(request, 'customer/cart.html', {'orders': [orders] if orders else None,})
+        orderJson = ast.literal_eval(orders[0].prodJson)
         prodQuan = []
         products = []
         totals = []
@@ -50,6 +51,7 @@ def cart(request):
                 totals.append(idtotal(key, value))
                 prodQuan.append(value)
         context = {
+            'orders': [orders] if orders else None,
             'products': products,
             'favourite': [favourite.objects.filter(user=request.user, added=values.added)[0].added for values in favourite.objects.filter(user=request.user)],
             'prodQuan': prodQuan,
@@ -64,21 +66,19 @@ def cart(request):
 def addcart(request):
     prodJson = {}
     prodId = request.POST.get('id')
-    if not order.objects.filter(by=request.user, status='INCART'):
-        prodJson[prodId] = 6
+    stock = int(product.objects.filter(id=prodId)[0].peicePerBox)
+    prodquan = int(request.POST.get('quantity')) if not 'quantityb' in request.POST else int(int(request.POST.get('quantityb')) * int(stock))
+    if not order.objects.filter(by=request.user, status='INCART').exists():
+        prodJson[prodId] = prodquan
         createorder = order.objects.create(by=request.user, prodJson=prodJson)
         createorder.save()
     else:
-        editorder = order.objects.get(by=request.user, status='INCART')
+        editorder = order.objects.filter(by=request.user, status='INCART')[0]
         prodJson = ast.literal_eval(editorder.prodJson)
-        if prodId in prodJson.keys():
-            prodJson[prodId] = int(prodJson[prodId]) + 6
-            return JsonResponse({'data': False}, safe=False)
-        else:
-            prodJson[prodId] = 6
+        prodJson[prodId] = prodquan
         editorder.prodJson = prodJson
         editorder.save()
-
+        return JsonResponse({'data': False}, safe=False)
     return JsonResponse({'data': True}, safe=False)
 
 

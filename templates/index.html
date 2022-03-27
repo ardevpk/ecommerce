@@ -45,17 +45,15 @@
                   <div class="cards_img_div">
                     <img src="/media/{{product.image}}" alt="" />
                   </div>
-                  <div
-                    class="row p-2 card_heart_div d-flex justify-content-between"
-                  >
+                  <div class="row p-2 card_heart_div d-flex justify-content-between">
                     <div class="col-lg-10 col-md-10 col-sm-10 col-10">
-                      <small
-                        >{{product.name}}</small
-                      >
+                      <small>{{product.name}}</small>
+                      <br>
+                      <small>Color: {{product.color}}</small>
                     </div>
                     <div class="col-lg-2 col-md-2 col-sm-2 col-2 d-flex gap-2">
                       <a class="a_other" data-bs-toggle="modal" data-bs-target="#exampleModal{{product.id}}"><i class="bi bi-cart-plus"></i></a>
-                      <a class="a_other" id="{{product.id}}" onclick="addfav(`{{product.id}}`)">
+                      <a class="a_other" id="fav_{{product.id}}" onclick="addfav(`{{product.id}}`)">
                         {% if product.id in favourite %}
                         <i class="bi bi-heart-fill"></i>
                         {% else %}
@@ -88,39 +86,20 @@
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Quantity - Product Name: {{product.name}}</h5>
+              <h5 class="modal-title" id="exampleModalLabel">Quantity</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" id="{{product.id}}">
 
-
-              <div class="input-group">
-                <h4>By Box</h4>
-                <span class="input-group-btn">
-                    <button class="btn btn-white btn-minuse" type="button">-</button>
-                </span>
-                <input type="text" class="form-control no-padding add-color text-center height-25" id="box" value="0" disabled>
-                <span class="input-group-btn">
-                    <button class="btn btn-red btn-pluss" type="button">+</button>
-                </span>
-            </div>
-
-
-            <div class="input-group">
-              <h4>By Peice</h4>
-              <span class="input-group-btn">
-                  <button class="btn btn-white btn-minuse1" type="button">-</button>
-              </span>
-              <input type="text" class="form-control no-padding add-color text-center height-25" id="peice" value="0" disabled>
-              <span class="input-group-btn">
-                  <button class="btn btn-red btn-pluss1" type="button">+</button>
-              </span>
-          </div>
+              <button type="button" class="btn btn-info my-2 mx-5" onclick="quanb(`{{product.id}}`)">By/Box</button>
+              <br>
+              <button type="button" class="btn btn-info my-2 mx-5" onclick="quan(`{{product.id}}`)">By/Peice</button>
+ 
 
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary" onclick="addcart(`{{product.id}}`)">Save changes</button>
+              <button type="button" class="btn btn-primary" onclick="addcart(`{{product.id}}`)" disabled id="btn_{{product.id}}">Add To Cart</button>
             </div>
           </div>
         </div>
@@ -145,45 +124,67 @@
 <script>
 
 
-  $('.btn-minuse').on('click', function(){
-    if ($(this).parent().siblings('input').val() > 0) {
-      $(this).parent().siblings('input').val(parseInt($(this).parent().siblings('input').val()) - 1);
-      var minus = document.getElementsByClassName("peice");
-      Array.prototype.forEach.call(minus, function(min) {
-        min.setAttribute('0');
-      });
+
+function quan(id){
+  output = `<div class="input-group">
+    <span class="input-group-btn">
+        <button class="btn btn-white btn-minuse" type="button" onclick="minus(${id})">-</button>
+    </span>
+    <input type="number" class="form-control no-padding add-color text-center height-25" id="input_${id}" value="0" disabled>
+    <span class="input-group-btn">
+        <button class="btn btn-red btn-pluss" type="button" onclick="plus(${id})">+</button>
+    </span>
+</div>`
+document.getElementById(id).innerHTML = output
+$("#btn_"+id).prop('disabled', false);
+}
+
+function minus(id){
+    if (parseInt(document.getElementById("input_"+id).value) > 0) {
+      document.getElementById("input_"+id).value = parseInt(document.getElementById("input_"+id).value) - 1;
     }
-})
-$('.btn-pluss').on('click', function(){
-    $(this).parent().siblings('input').val(parseInt($(this).parent().siblings('input').val()) + 1)
-    var plus = document.getElementsByClassName("peice");
-    Array.prototype.forEach.call(plus, function(pl) {
-      pl.setAttribute('0');
-    });
-})
+}
 
-
-
-
-$('.btn-minuse1').on('click', function(){
-  if ($(this).parent().siblings('input').val() > 0) {
-    $(this).parent().siblings('input').val(parseInt($(this).parent().siblings('input').val()) - 1);
-    document.querySelectorAll('box').value = 0;
+function plus(id){
+document.getElementById("input_"+id).value = parseInt(document.getElementById("input_"+id).value) + 1;
   }
-})
-$('.btn-pluss1').on('click', function(){
-  $(this).parent().siblings('input').val(parseInt($(this).parent().siblings('input').val()) + 1)
-  document.querySelectorAll('box').value = 0;
-})
 
+
+
+
+
+function quanb(id){
+  output = `<div class="input-group">
+    <span class="input-group-btn">
+        <button class="btn btn-white btn-minuse" type="button" onclick="minusb(${id})">-</button>
+    </span>
+    <input type="number" class="form-control no-padding add-color text-center height-25" id="inputb_${id}" value="0" disabled>
+    <span class="input-group-btn">
+        <button class="btn btn-red btn-pluss" type="button" onclick="plusb(${id})">+</button>
+    </span>
+</div>`
+document.getElementById(id).innerHTML = output
+$("#btn_"+id).prop('disabled', false);
+}
+
+
+function minusb(id){
+  if (parseInt(document.getElementById("input_"+id).value) > 0) {
+    document.getElementById("inputb_"+id).value = parseInt(document.getElementById("inputb_"+id).value) - 1;
+  }
+}
+
+function plusb(id){
+document.getElementById("inputb_"+id).value = parseInt(document.getElementById("inputb_"+id).value) + 1;
+}
 
 
   
 function addfav(id) {
   if (document.getElementById(id).innerHTML == `<i class="bi bi-heart-fill"></i>`) {
-    $("#"+id).html('<i class="bi bi-heart"></i>');
+    $("#fav_"+id).html('<i class="bi bi-heart"></i>');
   } else {
-    $("#"+id).html('<i class="bi bi-heart-fill"></i>');
+    $("#fav_"+id).html('<i class="bi bi-heart-fill"></i>');
   }
   var token = '{{ csrf_token }}';
   var formData = new FormData()
@@ -199,13 +200,13 @@ function addfav(id) {
           let values = response['data']
           if (values == false){
               output = `<i class="bi bi-heart"></i>`
-              document.getElementById(id).innerHTML = output
+              document.getElementById("fav_"+id).innerHTML = output
               document.getElementById("lblCartCount11").innerText = parseInt(document.getElementById("lblCartCount11").innerText) - 1
                 
             }
           else{
             output = `<i class="bi bi-heart-fill"></i>`
-            document.getElementById(id).innerHTML = output
+            document.getElementById("fav_"+id).innerHTML = output
             document.getElementById("lblCartCount11").innerText = parseInt(document.getElementById("lblCartCount11").innerText) + 1
               
       }},
@@ -218,5 +219,50 @@ function addfav(id) {
       }
   })
 }
+
+
+
+
+
+function addcart(id) {
+  let output = `<button class="btn btn-primary" type="button" disabled>
+    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+    Loading...
+  </button>`
+  $("#btn_"+id).prop('disabled', false);
+  document.getElementById("btn_"+id).innerHTML = `<span class="spinner-border spinner-border-sm mx-1" role="status" aria-hidden="true"></span>` + "Adding..."
+  var token = '{{ csrf_token }}';
+  var formData = new FormData()
+  formData.append('id', id)
+  if (document.getElementById("inputb_"+id)){
+    formData.append('quantityb', parseInt(document.getElementById("inputb_"+id).value))
+  } else {
+    formData.append('quantity', parseInt(document.getElementById("input_"+id).value))
+  }
+  $.ajax({
+      url: "/add-to-cart/",
+      type: 'POST',
+      data: formData,
+      headers: { 'X-CSRFToken': token },
+      processData: false,
+      contentType: false,
+      success: function (response) {
+          let values = response['data']
+          if (values == true){
+              document.getElementById("lblCartCount").innerHTML = parseInt(document.getElementById("lblCartCount").innerText) + 1
+            }
+            document.getElementById("btn_"+id).innerHTML = `<i class="bi bi-check2-square mx-2"></i>` + "Added"
+          },
+      failure: function () {
+        swal({
+            title: `Failure`,
+            text: "Something Went Wrong Please Try Again Later!",
+            icon: "error",
+          })
+      }
+  })
+}
+
+
 </script>
     {% endblock js %}

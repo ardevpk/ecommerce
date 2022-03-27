@@ -12,8 +12,8 @@ class product(models.Model):
     details = models.TextField(null=True, blank=True)
     category = models.CharField(max_length=254)
     image = models.ImageField(upload_to=f'images/')
-    priceByBox = models.DecimalField(max_digits=100000, decimal_places=2)
-    stockByBox = models.IntegerField()
+    priceByBox = models.IntegerField()
+    stockByPeice = models.IntegerField()
     peicePerBox = models.IntegerField()
 
 
