@@ -82,8 +82,6 @@ def addcart(request):
     return JsonResponse({'data': True}, safe=False)
 
 
-def stafforders(request):
-    return render(request, 'staff/stafforders.html')
 
 
 
@@ -123,3 +121,21 @@ def productspage(request):
     else:
         messages.add_message(request, messages.ERROR, 'Your Account Is Not Verified Yet Please Check Your Mail Or Contact Website Owner')
         return redirect('/signin/')
+    
+
+
+
+
+@login_required(login_url='/signin/', redirect_field_name=None)
+def delete(request, id):
+    orders = order.objects.get(by=request.user, status='INCART')
+    jsons = ast.literal_eval(orders.prodJson)
+    if len(jsons) > 1:
+        if str(id) in jsons.keys():
+            del jsons[str(id)]
+        orders.prodJson = jsons
+        orders.save()
+    else:
+        orders.delete()
+    return redirect('/cart/')
+    

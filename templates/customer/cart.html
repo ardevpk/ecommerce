@@ -49,7 +49,7 @@
 									<img src="/media/{{product.image}}/" height="40" width="40" alt="">
 								</td>
 								<td class="product-des text-center" data-title="Name">
-									<p class="product-des"><a style="color: black;" href="/product/{{product.id}}/">Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident, fugit!{{product.name}}</a></p>
+									<p class="product-des"><a style="color: black;" href="/product/{{product.id}}/">{{product.name}}</a></p>
 								</td>
 								<td class="product-des text-center" data-title="Brand">
 									<p class="product-des"><a style="color: black;" href="/brand/{{product.brand}}/">{{product.brand}}</a></p>
@@ -80,7 +80,7 @@
 								<td class="total-amount text-center" data-title="Total">Rs. <span id="t_{{product.id}}">{{total}}</span></td>
 								{% endif %}
 								{% endfor %}
-								<td class="action text-center" data-title="Remove"><a class="a_other" href="/prodDelete/{{product.id}}/"><i class="bi bi-trash"></i></a></td>
+								<td class="action text-center" data-title="Remove"><a class="a_other" href="/delete/{{product.id}}/"><i class="bi bi-trash"></i></a></td>
 							</tr>
 							{% endfor %}
 						</tbody>
