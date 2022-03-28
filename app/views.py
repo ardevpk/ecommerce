@@ -40,7 +40,8 @@ def cart(request):
     if (request.user.is_verified or EmailAddress.objects.filter(email=request.user.email)[0].verified):
         orders = order.objects.filter(by=request.user, status='INCART')
         if not order.objects.filter(by=request.user, status='INCART').exists():
-            return render(request, 'customer/cart.html', {'orders': [orders] if orders else None,})
+            return render(request, 'customer/cart.html', {'orders': [orders] if orders else None, 
+            'favourite': [favourite.objects.filter(user=request.user, added=values.added)[0].added for values in favourite.objects.filter(user=request.user)]})
         orderJson = ast.literal_eval(orders[0].prodJson)
         prodQuan = []
         products = []

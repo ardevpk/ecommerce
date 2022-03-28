@@ -36,22 +36,24 @@
       <div class="container">
         <div class="cards_title_div">
           <h3 class="fw-bold">{{brand}}</h3>
+          <div class="cards_title_border_div"></div>
         </div>
         <div class="row">
             {%  for product in products %}
             {% if product.brand == brand %}
-              <div class="col-lg-3 col-md-6 col-sm-12 col-12 mt-4">
+              <div class="col-lg-3 col-md-6 col-sm-6 col-6 mt-4">
                 <div class="cards_body_div">
                   <div class="cards_img_div">
                     <img src="/media/{{product.image}}" alt="" />
+                    <span class="hot_text">Crystal</span>
                   </div>
-                  <div class="row p-2 card_heart_div d-flex justify-content-between">
-                    <div class="col-lg-10 col-md-10 col-sm-10 col-10">
+                  <div class="p-2 card_heart_div d-flex justify-content-between">
+                    <div class="">
                       <small>{{product.name}}</small>
                       <br>
                       <small>Color: {{product.color}}</small>
                     </div>
-                    <div class="col-lg-2 col-md-2 col-sm-2 col-2 d-flex gap-2">
+                    <div class="d-flex gap-2">
                       <a class="a_other" data-bs-toggle="modal" data-bs-target="#exampleModal{{product.id}}"><i class="bi bi-cart-plus"></i></a>
                       <a class="a_other" id="fav_{{product.id}}" onclick="addfav(`{{product.id}}`)">
                         {% if product.id in favourite %}
