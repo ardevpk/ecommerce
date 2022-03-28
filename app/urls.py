@@ -4,10 +4,10 @@ from .views import *
 urlpatterns = [
     # Main Shop Home Page For Customer
     path('', index),
-    path('cart/', cart, name='cart'),
-    path('add-to-cart/', addcart, name='addcart'),
-    path('delete/<int:id>/', delete, name='delete'),
-    path('addtofav/', addtofav, name='addtofav'),
+    path('cart/', cart),
+    path('addtofav/', addtofav),
+    path('add-to-cart/', addcart),
+    path('delete/<int:id>/', delete),
 
     # Main Home Page For Staff
 ]

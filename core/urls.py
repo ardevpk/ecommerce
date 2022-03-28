@@ -22,12 +22,13 @@ urlpatterns = [
     # Admin Urls
     path('admin/', admin.site.urls),
 
-    # App Urls
-    path('', include('app.urls')),
-
 
     # Account Urls
-    path('', include('accounts.urls'))
+    path('', include('accounts.urls')),
+
+
+    # App Urls
+    path('', include('app.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

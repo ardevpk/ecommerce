@@ -93,7 +93,7 @@ body{
 	.cards_img_div img{
 		width: 100%;
 		max-width: 300px;
-		height: 225px;
+		height: 220px;
 	}
 	.cards_body_div {
 		height: auto;
@@ -225,8 +225,8 @@ a {
     background-color: rgb(255 73 0);
     color: #fff;
     padding: 6px;
-	border-radius: 14px;
+	border-radius: 13px;
 	top: 7px;
 	font-weight: bold;
-	font-size: 13px;
+	font-size: 12px;
 }
