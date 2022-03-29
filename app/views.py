@@ -29,32 +29,38 @@ def branddef():
     brands = product.objects.values_list('brand', flat=True).distinct()
     return brands
 
+def categorydef():
+    categorys = product.objects.values_list('category', flat=True).distinct()
+    return categorys
+
+
 
 def checkuser(request):
+    dicts = {}
     if EmailAddress.objects.filter(email=request.user.email).exists():
         if (request.user.is_verified or EmailAddress.objects.filter(email=request.user.email)[0].verified) and not request.user.is_staff:
-            return True
+            return dicts
         elif (request.user.is_verified or EmailAddress.objects.filter(email=request.user.email)[0].verified) and request.user.is_staff:
-            response = redirect('/signin/')
-            return response
+            dicts['url'] = '/signin/'
+            return dicts
         else:
             messages.add_message(request, messages.ERROR, 'Your Account Is Not Verified Yet Please Check Your Mail Or Contact Website Owner')
-            response = redirect('/signin/')
-            return response
+            dicts['url'] = '/signin/'
+            return dicts
     elif not EmailAddress.objects.filter(email=request.user.email).exists():
         if (request.user.is_verified) and not request.user.is_staff:
             return True
         elif (request.user.is_verified) and request.user.is_staff:
-            response = redirect('/signin/')
-            return response
+            dicts['url'] = '/signin/'
+            return dicts
         else:
             messages.add_message(request, messages.ERROR, 'Your Account Is Not Verified Yet Please Check Your Mail Or Contact Website Owner')
-            response = redirect('/signin/')
-            return response
+            dicts['url'] = '/signin/'
+            return dicts
     else:
         messages.add_message(request, messages.ERROR, 'Your Account Is Not Verified Yet Please Check Your Mail Or Contact Website Owner')
-        response = redirect('/signin/')
-        return response
+        dicts['url'] = '/signin/'
+        return dicts
 
 
 def idtotal(x, value):
@@ -74,14 +80,18 @@ def idtotal(x, value):
 #####################---------- Start Index Function ----------#####################
 @login_required(login_url='/signin/', redirect_field_name=None)
 def index(request):
-    if checkuser(request) == True:
+    dicts = checkuser(request)
+    if not 'url' in dicts:
         context = {
             'orders': ordersdef(request),
             'favourite': favdef(request),
             'brands': branddef(),
+            "categorys": categorydef(),
             'products': proddef(),
         }
         return render(request, 'index.html', context)
+    else:
+        return redirect(dicts['url'])
 #####################---------- End Index Function ----------#####################
 
 
@@ -92,13 +102,15 @@ def index(request):
 #####################---------- Start Cart Function ----------#####################
 @login_required(login_url='/signin/', redirect_field_name=None)
 def cart(request):
-    if checkuser(request):
+    dicts = checkuser(request)
+    if not 'url' in dicts:
         orders = ordersdef(request)
         if not order.objects.filter(by=request.user, status='INCART').exists():
             return render(request, 'customer/cart.html', {
                 'orders': ordersdef(request),
                 'favourite': favdef(request),
                 'brands': branddef(),
+                "categorys": categorydef(),
                 })
         orders = order.objects.filter(by=request.user, status='INCART')
         orderJson = ast.literal_eval(orders[0].prodJson)
@@ -114,13 +126,14 @@ def cart(request):
             'orders': ordersdef(request),
             'favourite': favdef(request),
             'brands': branddef(),
+            "categorys": categorydef(),
             'products': products,
             'prodQuan': prodQuan,
             'totals': totals,
         }
         return render(request, 'customer/cart.html', context)
     else:
-        return redirect('/signin/')
+        return redirect(dicts['url'])
 #####################---------- End Cart Function ----------#####################
 
 
@@ -129,15 +142,17 @@ def cart(request):
 #####################---------- Start Fav Function ----------#####################
 @login_required(login_url='/signin/', redirect_field_name=None)
 def favouriteproducts(request):
-    if checkuser(request):
+    dicts = checkuser(request)
+    if not 'url' in dicts:
         context = {
             'orders': ordersdef(request),
             'favourite': favdef(request),
             'brands': branddef(),
+            "categorys": categorydef(),
             }
         return render(request, "customer/favourite.html", context)
     else:
-        return redirect('/signin/')
+        return redirect(dicts['url'])
 #####################---------- End Fav Function ----------#####################
 
 
@@ -147,16 +162,18 @@ def favouriteproducts(request):
 #####################---------- Start Product Page Function ----------#####################
 @login_required(login_url='/signin/', redirect_field_name=None)
 def productspage(request):
-    if checkuser(request):
+    dicts = checkuser(request)
+    if not 'url' in dicts:
         context = {
             'orders': ordersdef(request),
             'favourite': favdef(request),
             'brands': branddef(),
+            "categorys": categorydef(),
             'products': proddef(),
             }
         return render(request, 'customer/products.html', context)
     else:
-        return redirect('/signin/')
+        return redirect(dicts['url'])
 #####################---------- End Product Page Function ----------#####################
 
 
@@ -166,13 +183,13 @@ def productspage(request):
 #####################---------- Start Product From Cart Delete Function ----------#####################
 @login_required(login_url='/signin/', redirect_field_name=None)
 def delete(request, id):
-    orders = order.objects.filter(by=request.user, status='INCART')
-    jsons = ast.literal_eval(orders[0].prodJson)
+    orders = order.objects.get(by=request.user, status='INCART')
+    jsons = ast.literal_eval(orders.prodJson)
     if len(jsons) > 1:
         if str(id) in jsons.keys():
             del jsons[str(id)]
-        orders.prodJson = jsons
-        orders.save()
+            orders.prodJson = jsons
+            orders.save()
     else:
         orders.delete()
     return redirect('/cart/')
@@ -253,7 +270,8 @@ def addtofav(request):
 #     'orders': ordersdef(request),
 #     'favourite': favdef(request),
 #     'brands': branddef(),
+#     "categorys": categorydef(),
 
-##     Additional
+# #     Additional
 #     'products': proddef(),
 # }

@@ -22,7 +22,7 @@
               >
                 <li class="nav-item">
                   <a 
-                  {% if request.resolver_match.url_name == None %} class="nav-link active" {% else %} class="nav-link" {% endif %} aria-current="page" href="/">Home</a>
+                  {% if request.resolver_match.url_name == "index" %} class="nav-link active" {% else %} class="nav-link" {% endif %} aria-current="page" href="/">Home</a>
                 </li>
                 <li class="nav-item">
                   <a 
@@ -43,8 +43,8 @@
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                     
-										{% for brand in products %}
-                      <li><a class="dropdown-item" href="/brand/{{brand.brand}}/">{{brand.brand}}</a></li>
+										{% for brand in brands %}
+                      <li><a class="dropdown-item" href="/brand/{{brand}}/">{{brand}}</a></li>
                     {% endfor %}
 
                     <li><hr class="dropdown-divider" /></li>
@@ -68,8 +68,8 @@
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                     
-										{% for cat in products %}
-                      <li><a class="dropdown-item" href="/category/{{cat.category}}/">{{cat.category}}</a></li>
+										{% for category in categorys %}
+                      <li><a class="dropdown-item" href="/category/{{category}}/">{{category}}</a></li>
                     {% endfor %}
 
                     <li><hr class="dropdown-divider" /></li>
