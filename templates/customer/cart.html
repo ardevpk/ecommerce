@@ -49,13 +49,13 @@
 									<img src="/media/{{product.image}}/" height="40" width="40" alt="">
 								</td>
 								<td class="product-des text-center" data-title="Name">
-									<p class="product-des"><a style="color: black;" href="/product/{{product.id}}/">{{product.name}}</a></p>
+									<p class="product-des">{{product.name}}</p>
 								</td>
 								<td class="product-des text-center" data-title="Brand">
 									<p class="product-des"><a style="color: black;" href="/brand/{{product.brand}}/">{{product.brand}}</a></p>
 								</td>
 								<td class="product-des text-center" data-title="Color">
-									<p class="product-des">{{product.color}}</p>
+									<p class="product-des"><a style="color: black;" href="/color/{{product.color}}/">{{product.color}}</a></p>
 								</td>
 								<td class="price text-center" data-title="Price/Box">Rs. <span id="pp_{{product.id}}">{% widthratio product.priceByBox product.peicePerBox 1 %}</span></td>
 								<td class="qty text-center" data-title="Qty/Piece">
@@ -89,6 +89,7 @@
 					<!--/ End Shopping Summery -->
 				</div>
 			</div>
+
 			<div class="row">
 				<div class="col-12">
 					<!-- Total Amount -->
@@ -100,21 +101,8 @@
 							</div>
 							<div class="col-lg-4 col-md-7 col-12">
 								<div class="right">
-									<ul>
-										{% if tA %}
-										
-										<li>Cart Subtotal<span>Rs.{{tA}}</span></li>
-										{% else %}
-
-										<li>Cart Subtotal<span>Rs. 0.00</span></li>
-										{% endif %}
-										<li>Shipping<span>Free</span></li>
-										<li>You Save<span>%10</span></li>
-										<li class="last">You Pay<span>Rs. {% if tPay %}{{tPay}}{% else %}0.00{% endif %} </span></li>
-									</ul>
-									<div class="button5">
-										<a href="/checkout/" class="btn">Checkout</a>
-										<a href="/products/" class="btn">Continue shopping</a>
+									<div class="button5" id="loader">
+										<button onclick="total()" class="btn btn-warning">Add To Checkout</button>
 									</div>
 								</div>
 							</div>
@@ -179,11 +167,8 @@
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
       crossorigin="anonymous"
     ></script>
-	<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-
-
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 	<script>
 		
 		function minus(id){
@@ -222,6 +207,62 @@ function addcart(id) {
 		failure: function () {
 		  swal({
 			  title: `Failure`,
+			  text: "Something Went Wrong Please Try Again Later!",
+			  icon: "error",
+			})
+		}
+	})
+  }
+
+
+
+		
+function total() {
+	let output = `<button class="btn btn-warning" type="button" disabled>
+		<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+		Adding...
+	  </button>`
+	  document.getElementById('loader').innerHTML = output
+	var token = '{{ csrf_token }}';
+	$.ajax({
+		url: "/total/",
+		type: 'POST',
+		data: '',
+		headers: { 'X-CSRFToken': token },
+		processData: false,
+		contentType: false,
+		success: function (response) {
+			let values = response['data']
+			if (values == true){
+				document.getElementById('loader').innerHTML = `
+				<button onclick="total()" class="btn btn-warning">Add To Checkout</button>`
+				swal.fire({
+				title: 'Total',
+				icon: 'info',
+				html: `Cart SubTotal: &nbsp&nbsp Rs: ${response['carttotal']} <br> You Save:
+				&nbsp&nbsp Rs: ${response['save']}(${response['percent']}%) <br> Your Total: 
+				&nbsp&nbsp Rs: ${response['total']}`,
+				showCloseButton: true,
+				focusConfirm: false,
+				confirmButtonText: 'Checkout',
+			  }).then((result) => {
+				if (result.isConfirmed) {
+				  window.location.href = '/checkout/'
+				}
+			  })
+				}
+			else{
+				swal({
+					title: `Total Error`,
+					text: "Continue To Checkout!",
+					icon: "error",
+					button: "<a href='/checkout/'>Checkout</a>",
+					})
+				}
+			},
+		failure: function () {
+		  swal({
+			  title: `404`,
 			  text: "Something Went Wrong Please Try Again Later!",
 			  icon: "error",
 			})

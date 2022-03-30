@@ -8,8 +8,8 @@ class ProductAdmin(admin.ModelAdmin):
     list_filter = ['brand', 'name', 'category', 'stockByPeice', 'color', 'priceByBox']
 
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('by', 'orderDateTime', 'payment', 'status', 'CheckedBy')
-    list_filter = ['by', 'orderDateTime', 'payment', 'status', 'CheckedBy']
+    list_display = ('user', 'orderDateTime', 'payment', 'status', 'CheckedBy', "carttotal", "percent", "saved", "total")
+    list_filter = ['user', 'orderDateTime', 'payment', 'status', 'CheckedBy']
     
 class favouriteAdmin(admin.ModelAdmin):
     list_display = ('user', 'added')

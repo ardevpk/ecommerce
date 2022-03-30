@@ -20,9 +20,9 @@ class product(models.Model):
 
 
 class order(models.Model):
-    by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'is_staff': False}, related_name='Customer')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'is_staff': False}, related_name='Customer')
     prodJson = models.TextField()
-    orderDateTime = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    orderDateTime = models.DateTimeField(null=True, blank=True)
     PAYMENT_CHOICES = [
         ('CREDIT', 'Credit'),
         ('CASH', 'Cash')
@@ -38,7 +38,10 @@ class order(models.Model):
     status = models.CharField(max_length=100, choices=APPROVED_CHOICES, default="INCART", null=True, blank=True)
     CheckedBy = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'is_staff': True}, related_name='Staff', null=True, blank=True)
     CheckedDate = models.DateTimeField(null=True, blank=True)
-    Total = models.DecimalField(max_digits=10000000, decimal_places=2, null=True, blank=True)
+    carttotal = models.IntegerField(null=True, blank=True)
+    percent = models.IntegerField(null=True, blank=True)
+    saved = models.IntegerField(null=True, blank=True)
+    total = models.IntegerField(null=True, blank=True)
 
 
 
