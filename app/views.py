@@ -33,6 +33,9 @@ def categorydef():
     categorys = product.objects.values_list('category', flat=True).distinct()
     return categorys
 
+def colordef():
+    colors = product.objects.values_list('color', flat=True).distinct()
+    return colors
 
 
 def checkuser(request):
@@ -49,7 +52,7 @@ def checkuser(request):
             return dicts
     elif not EmailAddress.objects.filter(email=request.user.email).exists():
         if (request.user.is_verified) and not request.user.is_staff:
-            return True
+            return dicts
         elif (request.user.is_verified) and request.user.is_staff:
             dicts['url'] = '/signin/'
             return dicts
@@ -81,12 +84,15 @@ def idtotal(x, value):
 @login_required(login_url='/signin/', redirect_field_name=None)
 def index(request):
     dicts = checkuser(request)
+    print(dicts)
+    print(type(dicts))
     if not 'url' in dicts:
         context = {
             'orders': ordersdef(request),
             'favourite': favdef(request),
             'brands': branddef(),
             "categorys": categorydef(),
+            'colors': colordef(),
             'products': proddef(),
         }
         return render(request, 'index.html', context)
@@ -111,6 +117,7 @@ def cart(request):
                 'favourite': favdef(request),
                 'brands': branddef(),
                 "categorys": categorydef(),
+                'colors': colordef(),
                 })
         orders = order.objects.filter(by=request.user, status='INCART')
         orderJson = ast.literal_eval(orders[0].prodJson)
@@ -127,6 +134,7 @@ def cart(request):
             'favourite': favdef(request),
             'brands': branddef(),
             "categorys": categorydef(),
+            'colors': colordef(),
             'products': products,
             'prodQuan': prodQuan,
             'totals': totals,
@@ -149,6 +157,7 @@ def favouriteproducts(request):
             'favourite': favdef(request),
             'brands': branddef(),
             "categorys": categorydef(),
+            'colors': colordef(),
             }
         return render(request, "customer/favourite.html", context)
     else:
@@ -169,6 +178,7 @@ def productspage(request):
             'favourite': favdef(request),
             'brands': branddef(),
             "categorys": categorydef(),
+            'colors': colordef(),
             'products': proddef(),
             }
         return render(request, 'customer/products.html', context)
@@ -202,8 +212,71 @@ def delete(request, id):
 
 
 
+#####################---------- Start Brand Page Function ----------#####################
+@login_required(login_url='/signin/', redirect_field_name=None)
+def brandspage(request, brand):
+    dicts = checkuser(request)
+    if not 'url' in dicts:
+        context = {
+            'orders': ordersdef(request),
+            'favourite': favdef(request),
+            'brands': branddef(),
+            "categorys": categorydef(),
+            'colors': colordef(),
+            'products': product.objects.filter(brand=brand),
+            'brand': brand,
+            }
+        return render(request, 'customer/brand.html', context)
+    else:
+        return redirect(dicts['url'])
+#####################---------- End Brand Page Function ----------#####################
 
 
+
+
+
+
+#####################---------- Start Category Page Function ----------#####################
+@login_required(login_url='/signin/', redirect_field_name=None)
+def categoryspage(request, category):
+    dicts = checkuser(request)
+    if not 'url' in dicts:
+        context = {
+            'orders': ordersdef(request),
+            'favourite': favdef(request),
+            'brands': branddef(),
+            "categorys": categorydef(),
+            'colors': colordef(),
+            'products': product.objects.filter(category=category),
+            'category': category,
+            }
+        return render(request, 'customer/category.html', context)
+    else:
+        return redirect(dicts['url'])
+#####################---------- End Category Page Function ----------#####################
+
+
+
+
+
+#####################---------- Start Color Page Function ----------#####################
+@login_required(login_url='/signin/', redirect_field_name=None)
+def colorspage(request, color):
+    dicts = checkuser(request)
+    if not 'url' in dicts:
+        context = {
+            'orders': ordersdef(request),
+            'favourite': favdef(request),
+            'brands': branddef(),
+            "categorys": categorydef(),
+            'colors': colordef(),
+            'products': product.objects.filter(color=color),
+            'color': color,
+            }
+        return render(request, 'customer/color.html', context)
+    else:
+        return redirect(dicts['url'])
+#####################---------- End Category Page Function ----------#####################
 
 
 
@@ -271,6 +344,7 @@ def addtofav(request):
 #     'favourite': favdef(request),
 #     'brands': branddef(),
 #     "categorys": categorydef(),
+#     'colors': colordef(),
 
 # #     Additional
 #     'products': proddef(),

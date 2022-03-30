@@ -14,6 +14,14 @@ class OrderAdmin(admin.ModelAdmin):
 class favouriteAdmin(admin.ModelAdmin):
     list_display = ('user', 'added')
 
+
+class userdetailAdmin(admin.ModelAdmin):
+    list_display = ('user', 'percentage', 'location', 'city', 'country')
+    list_filter = ['user', 'percentage', 'location', 'city', 'country']
+
+
 admin.site.register(product, ProductAdmin)
 admin.site.register(order, OrderAdmin)
 admin.site.register(favourite, favouriteAdmin)
+admin.site.register(city)
+admin.site.register(userdetail, userdetailAdmin)

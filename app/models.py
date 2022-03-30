@@ -15,6 +15,7 @@ class product(models.Model):
     priceByBox = models.IntegerField()
     stockByPeice = models.IntegerField()
     peicePerBox = models.IntegerField()
+    discount = models.BooleanField(default=True)
 
 
 
@@ -47,3 +48,23 @@ class order(models.Model):
 class favourite(models.Model):
 	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'is_staff': False})
 	added = models.IntegerField()
+
+
+
+
+
+
+
+class city(models.Model):
+    city = models.CharField(max_length=254)
+    def __str__(self):
+        return self.city
+
+
+CITY_ID = 2
+class userdetail(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'is_staff': False})
+    percentage = models.IntegerField(default=70, null=True, blank=True)
+    location = models.CharField(max_length=254)
+    city = models.ForeignKey(city, default=CITY_ID, on_delete=models.CASCADE, null=True, blank=True)
+    country = models.CharField(max_length=254, default='pakistan', null=True, blank=True)

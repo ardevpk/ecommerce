@@ -54,6 +54,9 @@
                   </ul>
                 </li>
 
+
+
+
                 
                 <li class="nav-item dropdown">
                   <a
@@ -70,6 +73,34 @@
                     
 										{% for category in categorys %}
                       <li><a class="dropdown-item" href="/category/{{category}}/">{{category}}</a></li>
+                    {% endfor %}
+
+                    <li><hr class="dropdown-divider" /></li>
+                    <li>
+                      <a class="dropdown-item" href="#">All</a>
+                    </li>
+                  </ul>
+                </li>
+
+
+
+
+                
+                <li class="nav-item dropdown">
+                  <a
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    id="navbarDropdown"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Colors
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    
+										{% for color in colors %}
+                      <li><a class="dropdown-item" href="/color/{{color}}/">{{color}}</a></li>
                     {% endfor %}
 
                     <li><hr class="dropdown-divider" /></li>

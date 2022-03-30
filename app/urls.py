@@ -12,6 +12,9 @@ urlpatterns = [
 
 
     path('products/', productspage, name="products"),
+    path('brand/<str:brand>/', brandspage, name="brand"),
+    path('category/<str:category>/', categoryspage, name="category"),
+    path('color/<str:color>/', colorspage, name="color"),
 
     # Main Home Page For Staff
 ]
