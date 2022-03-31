@@ -24,12 +24,10 @@
           <ul class="list-group mb-3">
             <li class="list-group-item d-flex justify-content-between">
               <span>Total (PKR)</span>
-              {% if orders %}
-              {% for order in orders %}
+              {% if order %}
               <strong>Rs. {{order.total}}</strong>
-              {% endfor %}
               {% else %}
-              <strong>Rs. {{order.total}}</strong>
+              <strong>Rs. 0.00</strong>
               {% endif %}
             </li>
           </ul>

@@ -12,8 +12,12 @@ import ast
 
 #####################---------- Start HelpFull Functions ----------#####################
 def ordersdef(request):
-    ordersed = order.objects.filter(user=request.user, status='INCART')
-    return ordersed if ordersed else None
+    # ordersed = order.objects.filter(user=request.user, status='INCART')
+    # return ordersed if ordersed else None
+    if order.objects.filter(user=request.user, status='INCART'):
+        ordersed = ast.literal_eval(order.objects.filter(user=request.user, status='INCART')[0].prodJson)
+        return ordersed
+    return None
 
 
 def favdef(request):
@@ -388,7 +392,10 @@ def total(request):
         for key, value in prodJson.items():
             totals.append(idtotal(key, value))
         carttotal = sum(totals)
-        percent = userdetail.objects.filter(user=request.user)[0].percentage
+        if userdetail.objects.filter(user=request.user).exists():
+            percent = userdetail.objects.filter(user=request.user)[0].percentage
+        else:
+            percent = 70
         saved = int(int(carttotal) / 100 * int(percent))
         total = int(int(carttotal) - int(saved))
         orders.carttotal = carttotal
