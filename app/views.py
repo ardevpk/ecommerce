@@ -14,7 +14,7 @@ import ast
 def ordersdef(request):
     # ordersed = order.objects.filter(user=request.user, status='INCART')
     # return ordersed if ordersed else None
-    if order.objects.filter(user=request.user, status='INCART'):
+    if order.objects.filter(user=request.user, status='INCART').exists():
         ordersed = ast.literal_eval(order.objects.filter(user=request.user, status='INCART')[0].prodJson)
         return ordersed
     return None
@@ -296,6 +296,12 @@ def checkout(request,):
             userdetails = userdetail.objects.filter(user=request.user)[0]
         else:
             userdetails = None
+        
+        if order.objects.filter(user=request.user, status='INCART').exists():
+            total = order.objects.filter(user=request.user, status='INCART')[0].total
+        else:
+            total = None
+        
         context = {
             'orders': ordersdef(request),
             'favourite': favdef(request),
@@ -303,6 +309,7 @@ def checkout(request,):
             "categorys": categorydef(),
             'colors': colordef(),
             "userdetail": userdetails,
+            "total": total,
             }
         return render(request, 'customer/checkout.html', context)
     else:
@@ -319,6 +326,7 @@ def checkout(request,):
 def confirmcheckout(request,):
     dicts = checkuser(request)
     if not 'url' in dicts:
+            
         context = {
             'orders': ordersdef(request),
             'favourite': favdef(request),
