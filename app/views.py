@@ -6,6 +6,7 @@ from .models import product, order, favourite, userdetail
 from django.contrib import messages
 import json
 import ast
+from datetime import datetime
 
 
 
@@ -88,8 +89,6 @@ def idtotal(x, value):
 @login_required(login_url='/signin/', redirect_field_name=None)
 def index(request):
     dicts = checkuser(request)
-    print(dicts)
-    print(type(dicts))
     if not 'url' in dicts:
         context = {
             'orders': ordersdef(request),
@@ -289,7 +288,7 @@ def colorspage(request, color):
 
 #####################---------- Start Checkout Page Function ----------#####################
 @login_required(login_url='/signin/', redirect_field_name=None)
-def checkout(request,):
+def checkout(request):
     dicts = checkuser(request)
     if not 'url' in dicts:
         if userdetail.objects.filter(user=request.user).exists():
@@ -321,26 +320,6 @@ def checkout(request,):
 
 
 
-#####################---------- Start Confrim Checkout Page Function ----------#####################
-@login_required(login_url='/signin/', redirect_field_name=None)
-def confirmcheckout(request,):
-    dicts = checkuser(request)
-    if not 'url' in dicts:
-            
-        context = {
-            'orders': ordersdef(request),
-            'favourite': favdef(request),
-            'brands': branddef(),
-            "categorys": categorydef(),
-            'colors': colordef(),
-            }
-        return render(request, 'customer/checkout.html', context)
-    else:
-        return redirect(dicts['url'])
-#####################---------- End Confrim Checkout Page Function ----------#####################
-
-
-
 
 
 
@@ -367,14 +346,16 @@ def addcart(request):
         prodJson[prodId] = prodquan
         createorder = order.objects.create(user=request.user, prodJson=prodJson)
         createorder.save()
+        lenth = len(ordersdef(request)) if ordersdef(request) != None else 0
+        return JsonResponse({"len": lenth}, safe=False)
     else:
         editorder = order.objects.filter(user=request.user, status='INCART')[0]
         prodJson = ast.literal_eval(editorder.prodJson)
         prodJson[prodId] = prodquan
         editorder.prodJson = prodJson
         editorder.save()
-        return JsonResponse({'data': False}, safe=False)
-    return JsonResponse({'data': True}, safe=False)
+        lenth = len(ordersdef(request)) if ordersdef(request) != None else 0
+        return JsonResponse({"len": lenth}, safe=False)
 #####################---------- End Add Cart Function ----------#####################
 
 
@@ -422,6 +403,17 @@ def total(request):
 
 
 
+
+#####################---------- Start Confrim Checkout Page Function ----------#####################
+def confirmcheckout(request):
+    payment = request.POST['payment']
+    ordersed = order.objects.get(user=request.user, status='INCART')
+    ordersed.status = "PENDING"
+    ordersed.payment = payment
+    ordersed.orderDateTime = datetime.now()
+    ordersed.save()
+    return JsonResponse({'data': True}, safe=False)
+#####################---------- End Confrim Checkout Page Function ----------#####################
 
 
 

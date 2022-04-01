@@ -19,7 +19,7 @@
 	<div class="container mt-5">
 		<h2>Your Cart</h2>
 	</div>
-			
+	{% if products %}
 	<!-- Shopping Cart -->
 	<div class="shopping-cart section mt-5">
 		<div class="container">
@@ -113,6 +113,13 @@
 			</div>
 		</div>
 	</div>
+	{% else %}
+	<div class="container">
+		<h3 class="container mx-3 my-4 mb-5">
+			You Don't Have Any Products In Your Cart
+		</h3>
+	</div>
+	{% endif %}
 	<!--/ End Shopping Cart -->
 			
 	<!-- Start Shop Services Area  -->

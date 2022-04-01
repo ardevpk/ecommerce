@@ -211,6 +211,7 @@ function addfav(id) {
 
 
 
+
 function addcart(id) {
   let output = `<button class="btn btn-primary" type="button" disabled>
     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
@@ -234,11 +235,8 @@ function addcart(id) {
       processData: false,
       contentType: false,
       success: function (response) {
-          let values = response['data']
-          if (values == true){
-              document.getElementById("lblCartCount").innerHTML = parseInt(document.getElementById("lblCartCount").innerText) + 1
-            }
-            document.getElementById("btn_"+id).innerHTML = `<i class="bi bi-check2-square mx-2"></i>` + "Added"
+          document.getElementById("lblCartCount").innerHTML = response['len']
+          document.getElementById("btn_"+id).innerHTML = `<i class="bi bi-check2-square mx-2"></i>` + "Added"
           },
       failure: function () {
         swal({

@@ -68,11 +68,6 @@
                       </a>
                     </div>
                   </div>
-                  <!-- <div class="p-2 card_inner_inner_text_div">
-                    <small>Rs: {% widthratio product.priceByBox product.peicePerBox 1 %}<sub>/ Peice</sub></small>
-                    <br>
-                    <small>Rs: {{product.priceByBox}}<sub>/ Box</sub></small>
-                  </div> -->
                 </div>
               </div>
               {% endif %}
@@ -258,11 +253,8 @@ function addcart(id) {
       processData: false,
       contentType: false,
       success: function (response) {
-          let values = response['data']
-          if (values == true){
-              document.getElementById("lblCartCount").innerHTML = parseInt(document.getElementById("lblCartCount").innerText) + 1
-            }
-            document.getElementById("btn_"+id).innerHTML = `<i class="bi bi-check2-square mx-2"></i>` + "Added"
+          document.getElementById("lblCartCount").innerHTML = response['len']
+          document.getElementById("btn_"+id).innerHTML = `<i class="bi bi-check2-square mx-2"></i>` + "Added"
           },
       failure: function () {
         swal({
