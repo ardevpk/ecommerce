@@ -453,6 +453,25 @@ def favourites(request):
 
 
 
+#####################---------- Start Change Order Status Function ----------#####################
+@login_required(login_url='/signin/', redirect_field_name=None)
+def changepage(request, id):
+    dicts = checkuser(request)
+    if not 'url' in dicts:
+        if order.objects.filter(user=request.user, id=id).exists():
+            orderesed = order.objects.get(user=request.user, id=id)
+            orderesed.status = "INCART"
+            orderesed.save()
+            return redirect('/cart/')
+        return redirect('/cart/pending/')
+    else:
+        return redirect(dicts['url'])
+#####################---------- End Change Order Status Function ----------#####################
+
+
+
+
+
 
 
 
@@ -510,7 +529,7 @@ def total(request):
         if userdetail.objects.filter(user=request.user).exists():
             percent = userdetail.objects.filter(user=request.user)[0].percentage
         else:
-            percent = 70
+            percent = 0
         saved = int(int(carttotal) / 100 * int(percent))
         total = int(int(carttotal) - int(saved))
         orders.carttotal = carttotal

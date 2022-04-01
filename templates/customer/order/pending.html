@@ -44,6 +44,7 @@
 								<th class="text-center">Totals</th>
 								<th class="text-center">Order Date/Time</th>
 								<th class="text-center"><i class="bi bi-download"></i></th>
+								<th class="text-center"><i class="bi bi-arrow-clockwise"></i></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -60,6 +61,7 @@
 									<p class="product-des">{{orders.orderDateTime}}</p>
 								</td>
 								<td class="action text-center"><a class="a_other" href="#"><i class="bi bi-box-arrow-down"></i></a></td>
+								<td class="action text-center"><a class="a_other" href="/cart/pending/change/{{orders.id}}/"><i class="bi bi-arrow-repeat"></i></a></td>
 							</tr>
 							{% endfor %}
 						</tbody>

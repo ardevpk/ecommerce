@@ -111,7 +111,7 @@
 							<div class="col-lg-4 col-md-7 col-12">
 								<div class="right">
 									<div class="button5" id="loader">
-										<button onclick="total()" class="btn btn-warning">Add To Checkout</button>
+										<button onclick="total()" id="checkout_btn" class="btn btn-warning">Add To Checkout</button>
 									</div>
 								</div>
 							</div>
@@ -189,6 +189,8 @@
 		
 		function minus(id){
 			if (parseInt(document.getElementById("input_"+id).value) > 1) {
+				$('#minus_'+id).attr("disabled", true)
+				$('#plus_'+id).attr("disabled", true)
 				document.getElementById("input_"+id).value = parseInt(document.getElementById("input_"+id).value) - 1;
 				document.getElementById("t_"+id).innerText = parseInt(parseInt(document.getElementById("t_"+id).innerText) - parseInt(document.getElementById("pp_"+id).innerText));
 				addcart(id);
@@ -196,6 +198,8 @@
 		}
 		
 		function plus(id){
+			$('#minus_'+id).attr("disabled", true)
+			$('#plus_'+id).attr("disabled", true)
 			document.getElementById("input_"+id).value = parseInt(document.getElementById("input_"+id).value) + 1;
 			document.getElementById("t_"+id).innerText = parseInt(parseInt(document.getElementById("t_"+id).innerText) + parseInt(document.getElementById("pp_"+id).innerText));
 			addcart(id);
@@ -205,6 +209,7 @@
 
 		
 function addcart(id) {
+	$('#checkout_btn').attr("disabled", true)
 	var token = '{{ csrf_token }}';
 	var formData = new FormData()
 	formData.append('id', id)
@@ -217,8 +222,9 @@ function addcart(id) {
 		processData: false,
 		contentType: false,
 		success: function (response) {
-			let values = response['data']
-			console.log(values)
+			$('#minus_'+id).attr("disabled", false)
+			$('#plus_'+id).attr("disabled", false)
+			$('#checkout_btn').attr("disabled", false)
 			},
 		failure: function () {
 		  swal({

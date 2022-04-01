@@ -9,6 +9,7 @@ urlpatterns = [
 
     path('cart/', cart, name="cart"),
     path('cart/pending/', pending, name="pending"),
+    path('cart/pending/change/<int:id>/', changepage, name="changepage"),
     path('cart/processing/', processing, name="processing"),
     path('cart/completed/', completed, name="completed"),
     path('cart/cancelled/', cancelled, name="cancelled"),
