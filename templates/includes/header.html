@@ -171,7 +171,7 @@
 									{% if favourite %}
                       <li class="nav-item">
                         <a 
-                        {% if request.resolver_match.url_name == "whishlist" %} class="nav-link active" {% else %} class="nav-link" {% endif %}  aria-current="page" href="/whishlist/"
+                        {% if request.resolver_match.url_name == "favourites" %} class="nav-link active" {% else %} class="nav-link" {% endif %}  aria-current="page" href="/favourites/"
                           ><i class="bi bi-bag-heart-fill"></i>
                           <span class="badge badge-warning" id="lblCartCount11">
                             {{ favourite | length }}
@@ -182,7 +182,7 @@
                     <div class="d-flex gap-3">
                       <li class="nav-item">
                         <a 
-                        {% if request.resolver_match.url_name == "whishlist" %} class="nav-link active" {% else %} class="nav-link" {% endif %}  aria-current="page" href="/whishlist/"
+                        {% if request.resolver_match.url_name == "favourites" %} class="nav-link active" {% else %} class="nav-link" {% endif %}  aria-current="page" href="/favourites/"
                           ><i class="bi bi-bag-heart-fill"></i>
                           <span class="badge badge-warning" id="lblCartCount11">
                             0

@@ -115,7 +115,7 @@ def cart(request):
     if not 'url' in dicts:
         orders = ordersdef(request)
         if not order.objects.filter(user=request.user, status='INCART').exists():
-            return render(request, 'customer/cart.html', {
+            return render(request, 'customer/order/cart.html', {
                 'orders': ordersdef(request),
                 'favourite': favdef(request),
                 'brands': branddef(),
@@ -142,30 +142,11 @@ def cart(request):
             'prodQuan': prodQuan,
             'totals': totals,
         }
-        return render(request, 'customer/cart.html', context)
+        return render(request, 'customer/order/cart.html', context)
     else:
         return redirect(dicts['url'])
 #####################---------- End Cart Function ----------#####################
 
-
-
-
-#####################---------- Start Fav Function ----------#####################
-@login_required(login_url='/signin/', redirect_field_name=None)
-def favouriteproducts(request):
-    dicts = checkuser(request)
-    if not 'url' in dicts:
-        context = {
-            'orders': ordersdef(request),
-            'favourite': favdef(request),
-            'brands': branddef(),
-            "categorys": categorydef(),
-            'colors': colordef(),
-            }
-        return render(request, "customer/favourite.html", context)
-    else:
-        return redirect(dicts['url'])
-#####################---------- End Fav Function ----------#####################
 
 
 
@@ -321,6 +302,151 @@ def checkout(request):
 
 
 
+
+
+#####################---------- Start Pending Cart Function ----------#####################
+@login_required(login_url='/signin/', redirect_field_name=None)
+def pending(request):
+    dicts = checkuser(request)
+    if not 'url' in dicts:
+        if order.objects.filter(user=request.user, status='PENDING').exists():
+            orderdetails = order.objects.filter(user=request.user, status='PENDING').order_by("-id")
+        else:
+            orderdetails = None
+        context = {
+            'orders': ordersdef(request),
+            'favourite': favdef(request),
+            'brands': branddef(),
+            "categorys": categorydef(),
+            'colors': colordef(),
+            "orderdetails": orderdetails,
+        }
+        return render(request, 'customer/order/pending.html', context)
+    else:
+        return redirect(dicts['url'])
+#####################---------- End Pending Cart Function ----------#####################
+
+
+
+
+
+
+
+
+
+#####################---------- Start Processing Cart Function ----------#####################
+@login_required(login_url='/signin/', redirect_field_name=None)
+def processing(request):
+    dicts = checkuser(request)
+    if not 'url' in dicts:
+        if order.objects.filter(user=request.user, status='PROCESSING').exists():
+            orderdetails = order.objects.filter(user=request.user, status='PROCESSING').order_by("-id")
+        else:
+            orderdetails = None
+        context = {
+            'orders': ordersdef(request),
+            'favourite': favdef(request),
+            'brands': branddef(),
+            "categorys": categorydef(),
+            'colors': colordef(),
+            "orderdetails": orderdetails,
+        }
+        return render(request, 'customer/order/processing.html', context)
+    else:
+        return redirect(dicts['url'])
+#####################---------- End Processing Cart Function ----------#####################
+
+
+
+
+
+
+
+
+
+#####################---------- Start Completed Cart Function ----------#####################
+@login_required(login_url='/signin/', redirect_field_name=None)
+def completed(request):
+    dicts = checkuser(request)
+    if not 'url' in dicts:
+        if order.objects.filter(user=request.user, status='COMPLETED').exists():
+            orderdetails = order.objects.filter(user=request.user, status='COMPLETED').order_by("-id")
+        else:
+            orderdetails = None
+        context = {
+            'orders': ordersdef(request),
+            'favourite': favdef(request),
+            'brands': branddef(),
+            "categorys": categorydef(),
+            'colors': colordef(),
+            "orderdetails": orderdetails,
+        }
+        return render(request, 'customer/order/completed.html', context)
+    else:
+        return redirect(dicts['url'])
+#####################---------- End Completed Cart Function ----------#####################
+
+
+
+
+
+
+
+
+
+#####################---------- Start Cancelled Cart Function ----------#####################
+@login_required(login_url='/signin/', redirect_field_name=None)
+def cancelled(request):
+    dicts = checkuser(request)
+    if not 'url' in dicts:
+        if order.objects.filter(user=request.user, status='CANCELLED').exists():
+            orderdetails = order.objects.filter(user=request.user, status='CANCELLED').order_by("-id")
+        else:
+            orderdetails = None
+        context = {
+            'orders': ordersdef(request),
+            'favourite': favdef(request),
+            'brands': branddef(),
+            "categorys": categorydef(),
+            'colors': colordef(),
+            "orderdetails": orderdetails,
+        }
+        return render(request, 'customer/order/cancelled.html', context)
+    else:
+        return redirect(dicts['url'])
+#####################---------- End Cancelled Cart Function ----------#####################
+
+
+
+
+
+
+
+
+#####################---------- Start Favourite Products Function ----------#####################
+@login_required(login_url='/signin/', redirect_field_name=None)
+def favourites(request):
+    dicts = checkuser(request)
+    if not 'url' in dicts:
+        products = []
+        if favourite.objects.filter(user=request.user).exists():
+            favdetails = favourite.objects.filter(user=request.user)
+            for fav in favdetails:
+                products.append(product.objects.get(id=fav.added))
+        else:
+            favdetails = None
+        context = {
+            'orders': ordersdef(request),
+            'favourite': favdef(request),
+            'brands': branddef(),
+            "categorys": categorydef(),
+            'colors': colordef(),
+            'products': products,
+        }
+        return render(request, 'customer/favourite.html', context)
+    else:
+        return redirect(dicts['url'])
+#####################---------- End Favourite Products Function ----------#####################
 
 
 

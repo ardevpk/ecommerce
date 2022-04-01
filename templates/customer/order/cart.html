@@ -19,6 +19,15 @@
 	<div class="container mt-5">
 		<h2>Your Cart</h2>
 	</div>
+	<div class="container">
+		<div class="carts_top_btn_div">
+			<a class="btn btn-warning btn-sm" href="/cart/">In Cart</a>
+			<a class="btn btn-warning btn-sm" href="/cart/pending/">Pending</a>
+			<a class="btn btn-warning btn-sm" href="/cart/processing/">Processing</a>
+			<a class="btn btn-warning btn-sm" href="/cart/completed/">Completed</a>
+			<a class="btn btn-warning btn-sm" href="/cart/cancelled/">Cancelled</a>
+		</div>
+	</div>
 	{% if products %}
 	<!-- Shopping Cart -->
 	<div class="shopping-cart section mt-5">
@@ -37,7 +46,7 @@
 								<th class="text-center">Color</th>
 								<th class="text-center">Price/Piece</th>
 								<th class="text-center px-5">Qty/Piece</th>
-								<th class="text-center px-5">Total</th> 
+								<th class="text-center px-5">Product Total</th>
 								<th class="text-center"><i class="bi bi-trash-fill"></i></th>
 							</tr>
 						</thead>
@@ -77,7 +86,7 @@
 								</td>
 								{% for total in totals %}
 								{% if forloop.counter == forloop.parentloop.counter %}
-								<td class="total-amount text-center" data-title="Total">Rs. <span id="t_{{product.id}}">{{total}}</span></td>
+								<td class="total-amount text-center" data-title="Product Total">Rs. <span id="t_{{product.id}}">{{total}}</span></td>
 								{% endif %}
 								{% endfor %}
 								<td class="action text-center" data-title="Remove"><a class="a_other" href="/delete/{{product.id}}/"><i class="bi bi-trash"></i></a></td>

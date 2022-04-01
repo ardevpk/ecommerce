@@ -5,7 +5,16 @@ from .views import *
 urlpatterns = [
     # Main Shop Home Page For Customer
     path('', index, name='index'),
+
+
     path('cart/', cart, name="cart"),
+    path('cart/pending/', pending, name="pending"),
+    path('cart/processing/', processing, name="processing"),
+    path('cart/completed/', completed, name="completed"),
+    path('cart/cancelled/', cancelled, name="cancelled"),
+
+
+    path('favourites/', favourites, name="favourites"),
     path('addtofav/', addtofav, name="addtofav"),
     path('add-to-cart/', addcart, name="add-to-cart"),
     path('delete/<int:id>/', delete, name="delete"),
