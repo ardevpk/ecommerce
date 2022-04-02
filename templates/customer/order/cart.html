@@ -52,7 +52,7 @@
 						</thead>
 						<tbody>
 							{% for product in products %}
-							<tr>
+							<tr id="remove_{{product.id}}">
 								<td class="text-center" data-title="Sno">{{forloop.counter}}</td>
 								<td class="image" data-title="Product">
 									<img src="/media/{{product.image}}/" height="40" width="40" alt="">
@@ -89,7 +89,7 @@
 								<td class="total-amount text-center" data-title="Product Total">Rs. <span id="t_{{product.id}}">{{total}}</span></td>
 								{% endif %}
 								{% endfor %}
-								<td class="action text-center" data-title="Remove"><a class="a_other" href="/delete/{{product.id}}/"><i class="bi bi-trash"></i></a></td>
+								<td class="action text-center" data-title="Remove"><a class="a_other" id="remove_ico_{{product.id}}" href="#" onclick="deletes(`{{product.id}}`)"><i class="bi bi-trash"></i></a></td>
 							</tr>
 							{% endfor %}
 						</tbody>
@@ -235,6 +235,45 @@ function addcart(id) {
 		}
 	})
   }
+
+
+
+
+
+  function deletes(id) {
+	  let output = `<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>`
+	$('#remove_ico_'+id).html(output)
+	var token = '{{ csrf_token }}';
+	var formData = new FormData()
+	formData.append('id', id)
+	formData.append('quantity', parseInt(document.getElementById("input_"+id).value))
+	$.ajax({
+		url: `/delete/${id}/`,
+		type: 'POST',
+		data: formData,
+		headers: { 'X-CSRFToken': token },
+		processData: false,
+		contentType: false,
+		success: function (response) {
+			const values = response['data']
+			if (values == true){
+				document.getElementById('remove_'+id).style.display = 'none';
+				document.getElementById("lblCartCount").innerHTML = response['len']
+			}
+			},
+		failure: function () {
+		  swal({
+			  title: `Failure`,
+			  text: "Something Went Wrong Please Try Again Later!",
+			  icon: "error",
+			})
+		}
+	})
+  }
+
+
+
+
 
 
 

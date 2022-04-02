@@ -174,24 +174,6 @@ def productspage(request):
 
 
 
-#####################---------- Start Product From Cart Delete Function ----------#####################
-@login_required(login_url='/signin/', redirect_field_name=None)
-def delete(request, id):
-    orders = order.objects.get(user=request.user, status='INCART')
-    jsons = ast.literal_eval(orders.prodJson)
-    if len(jsons) > 1:
-        if str(id) in jsons.keys():
-            del jsons[str(id)]
-            orders.prodJson = jsons
-            orders.save()
-    else:
-        orders.delete()
-    return redirect('/cart/')
-#####################---------- End Product From Cart Delete Function ----------#####################
-
-
-
-
 
 
 
@@ -502,6 +484,30 @@ def addcart(request):
         lenth = len(ordersdef(request)) if ordersdef(request) != None else 0
         return JsonResponse({"len": lenth}, safe=False)
 #####################---------- End Add Cart Function ----------#####################
+
+
+
+
+
+#####################---------- Start Product From Cart Delete Function ----------#####################
+def delete(request, id):
+    orders = order.objects.get(user=request.user, status='INCART')
+    jsons = ast.literal_eval(orders.prodJson)
+    if len(jsons) > 1:
+        if str(id) in jsons.keys():
+            del jsons[str(id)]
+            orders.prodJson = jsons
+            orders.save()
+    else:
+        orders.delete()
+    lenth = len(ordersdef(request)) if ordersdef(request) != None else 0
+    return JsonResponse({'data': True, "len": lenth}, safe=False)
+#####################---------- End Product From Cart Delete Function ----------#####################
+
+
+
+
+
 
 
 #####################---------- Start Add Fav Function ----------#####################
