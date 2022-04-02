@@ -1,7 +1,7 @@
 from unicodedata import name
 from django.urls import path
 from .views import *
-
+from .views2 import pdf
 urlpatterns = [
     # Main Shop Home Page For Customer
     path('', index, name='index'),
@@ -30,4 +30,6 @@ urlpatterns = [
     path('color/<str:color>/', colorspage, name="color"),
 
     # Main Home Page For Staff
+    # Test
+    path("cart/pending/pdf/<int:id>/" , pdf, name="pdf"),
 ]

@@ -72,7 +72,7 @@
             <h4 class="mb-3">Payment</h4>
   
             <div class="my-3">
-              <div class="form-check">
+              <div class="form-check" id="options">
                 <input id="cash" name="paymentMethod" type="radio" class="form-check-input" checked required>
                 <label class="form-check-label" for="credit">Cash</label>
               </div>
@@ -129,6 +129,16 @@
               document.getElementById("btn").className = "w-100 btn btn-success btn-lg"
               document.getElementById("btn").innerHTML = `
               <i class="bi bi-check2-square mx-3"></i>` + 'Order Confirmed'
+              }else{
+                swal({
+                  title: `Error`,
+                  text: "Alreay Added To Pending Orders Go To Cart Then Pending Orders To View This Order Details!",
+                  icon: "error",
+            })
+            document.getElementById("btn").className = "w-100 btn btn-success btn-lg"
+            document.getElementById("btn").innerHTML = `
+            <i class="bi bi-check2-square mx-3"></i>` + 'Order Confirmed'
+            
               }
               },
           failure: function () {

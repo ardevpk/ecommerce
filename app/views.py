@@ -558,6 +558,8 @@ def total(request):
 #####################---------- Start Confrim Checkout Page Function ----------#####################
 def confirmcheckout(request):
     payment = request.POST['payment']
+    if not order.objects.filter(user=request.user, status='INCART').exists():
+        return JsonResponse({'data': False}, safe=False)
     ordersed = order.objects.get(user=request.user, status='INCART')
     ordersed.status = "PENDING"
     ordersed.payment = payment
