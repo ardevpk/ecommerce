@@ -66,8 +66,12 @@
 								<td class="product-des text-center" data-title="Color">
 									<p class="product-des"><a style="color: black;" href="/color/{{product.color}}/">{{product.color}}</a></p>
 								</td>
-								<td class="price text-center" data-title="Price/Box">Rs. <span id="pp_{{product.id}}">{% widthratio product.priceByBox product.peicePerBox 1 %}</span></td>
-								<td class="qty text-center" data-title="Qty/Piece">
+								{% for perproduct in perproducts %}
+								{% if forloop.counter == forloop.parentloop.counter %}
+									<td class="price text-center" data-title="Price/Box">Rs. <span id="pp_{{product.id}}">{{perproduct}}</span></td>
+									<td class="qty text-center" data-title="Qty/Piece">
+								{% endif %}
+								{% endfor %}
 									<!-- Input Order -->
 										{% for prodquan in prodQuan %}
 										{% if forloop.counter == forloop.parentloop.counter %}
@@ -192,7 +196,6 @@
 				$('#minus_'+id).attr("disabled", true)
 				$('#plus_'+id).attr("disabled", true)
 				document.getElementById("input_"+id).value = parseInt(document.getElementById("input_"+id).value) - 1;
-				document.getElementById("t_"+id).innerText = parseInt(parseInt(document.getElementById("t_"+id).innerText) - parseInt(document.getElementById("pp_"+id).innerText));
 				addcart(id);
 			}
 		}
@@ -201,7 +204,6 @@
 			$('#minus_'+id).attr("disabled", true)
 			$('#plus_'+id).attr("disabled", true)
 			document.getElementById("input_"+id).value = parseInt(document.getElementById("input_"+id).value) + 1;
-			document.getElementById("t_"+id).innerText = parseInt(parseInt(document.getElementById("t_"+id).innerText) + parseInt(document.getElementById("pp_"+id).innerText));
 			addcart(id);
 		}
 		
@@ -225,9 +227,10 @@ function addcart(id) {
 			$('#minus_'+id).attr("disabled", false)
 			$('#plus_'+id).attr("disabled", false)
 			$('#checkout_btn').attr("disabled", false)
+			document.getElementById("t_"+id).innerText = response['pp'];
 			},
 		failure: function () {
-		  swal({
+		  swal.fire({
 			  title: `Failure`,
 			  text: "Something Went Wrong Please Try Again Later!",
 			  icon: "error",
@@ -262,7 +265,7 @@ function addcart(id) {
 			}
 			},
 		failure: function () {
-		  swal({
+		  swal.fire({
 			  title: `Failure`,
 			  text: "Something Went Wrong Please Try Again Later!",
 			  icon: "error",
@@ -313,7 +316,7 @@ function total() {
 			  })
 				}
 			else{
-				swal({
+				swal.fire({
 					title: `Total Error`,
 					text: "Continue To Checkout!",
 					icon: "error",
@@ -322,7 +325,7 @@ function total() {
 				}
 			},
 		failure: function () {
-		  swal({
+		  swal.fire({
 			  title: `404`,
 			  text: "Something Went Wrong Please Try Again Later!",
 			  icon: "error",

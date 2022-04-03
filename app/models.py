@@ -38,10 +38,10 @@ class order(models.Model):
     status = models.CharField(max_length=100, choices=APPROVED_CHOICES, default="INCART", null=True, blank=True)
     CheckedBy = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'is_staff': True}, related_name='Staff', null=True, blank=True)
     CheckedDate = models.DateTimeField(null=True, blank=True)
-    carttotal = models.IntegerField(null=True, blank=True)
-    percent = models.IntegerField(null=True, blank=True)
-    saved = models.IntegerField(null=True, blank=True)
-    total = models.IntegerField(null=True, blank=True)
+    carttotal = models.DecimalField(max_digits=100000000, decimal_places=3, null=True, blank=True)
+    percent = models.DecimalField(max_digits=100000000, decimal_places=3, null=True, blank=True)
+    saved = models.DecimalField(max_digits=100000000, decimal_places=3, null=True, blank=True)
+    total = models.DecimalField(max_digits=100000000, decimal_places=3, null=True, blank=True)
 
 
 
@@ -67,7 +67,8 @@ class city(models.Model):
 CITY_ID = 2
 class userdetail(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'is_staff': False})
-    percentage = models.IntegerField(default=70, null=True, blank=True)
+    OnCashPercentage = models.DecimalField(max_digits=100000000, decimal_places=3, default=0, null=True, blank=True)
+    OnCreditPercentage = models.DecimalField(max_digits=100000000, decimal_places=3, default=0, null=True, blank=True)
     location = models.CharField(max_length=254)
     city = models.ForeignKey(city, default=CITY_ID, on_delete=models.CASCADE, null=True, blank=True)
     country = models.CharField(max_length=254, default='pakistan', null=True, blank=True)

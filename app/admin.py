@@ -16,8 +16,8 @@ class favouriteAdmin(admin.ModelAdmin):
 
 
 class userdetailAdmin(admin.ModelAdmin):
-    list_display = ('user', 'percentage', 'location', 'city', 'country')
-    list_filter = ['user', 'percentage', 'location', 'city', 'country']
+    list_display = ('user', 'OnCashPercentage', "OnCreditPercentage", 'location', 'city', 'country')
+    list_filter = ['user', 'OnCashPercentage', "OnCreditPercentage", 'location', 'city', 'country']
 
 
 admin.site.register(product, ProductAdmin)

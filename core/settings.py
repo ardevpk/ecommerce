@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-nhvnc@z)&4tt$a90--vokj!_^==*j%tis=l8&78$hk$4!ddc_1
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-CSRF_TRUSTED_ORIGINS = ['https://adnanafzal.pythonanywhere.com', "http://127.0.0.1"]
+CSRF_TRUSTED_ORIGINS = ['http://adnanafzal.pythonanywhere.com', "http://127.0.0.1"]
 
 # Application definition
 

@@ -74,9 +74,8 @@ def checkuser(request):
 def idtotal(x, value):
     price = product.objects.filter(id=x)[0].priceByBox
     piece = product.objects.filter(id=x)[0].peicePerBox
-    return int((int(price) / int(piece)) * int(value))
+    return round(round(price / piece, 3) * value, 3)
 #####################---------- End HelpFull Functions ----------#####################
-
 
 
 
@@ -127,11 +126,13 @@ def cart(request):
         prodQuan = []
         products = []
         totals = []
+        perproducts = []
         if orders:
             for key, value in orderJson.items():
                 products.append(product.objects.filter(id=key)[0])
                 totals.append(idtotal(key, value))
                 prodQuan.append(value)
+                perproducts.append(round(product.objects.filter(id=key)[0].priceByBox / product.objects.filter(id=key)[0].peicePerBox, 3))
         context = {
             'orders': ordersdef(request),
             'favourite': favdef(request),
@@ -140,6 +141,7 @@ def cart(request):
             'colors': colordef(),
             'products': products,
             'prodQuan': prodQuan,
+            "perproducts": perproducts,
             'totals': totals,
         }
         return render(request, 'customer/order/cart.html', context)
@@ -295,6 +297,10 @@ def pending(request):
             orderdetails = order.objects.filter(user=request.user, status='PENDING').order_by("-id")
         else:
             orderdetails = None
+        if order.objects.filter(user=request.user, status='INCART').exists():
+            change = order.objects.filter(user=request.user, status='INCART')
+        else:
+            change = None
         context = {
             'orders': ordersdef(request),
             'favourite': favdef(request),
@@ -302,6 +308,7 @@ def pending(request):
             "categorys": categorydef(),
             'colors': colordef(),
             "orderdetails": orderdetails,
+            "change": change,
         }
         return render(request, 'customer/order/pending.html', context)
     else:
@@ -468,13 +475,15 @@ def addcart(request):
     prodJson = {}
     prodId = request.POST.get('id')
     stock = int(product.objects.filter(id=prodId)[0].peicePerBox)
+    productdet = product.objects.filter(id=prodId)[0]
     prodquan = int(request.POST.get('quantity')) if not 'quantityb' in request.POST else int(int(request.POST.get('quantityb')) * int(stock))
     if not order.objects.filter(user=request.user, status='INCART').exists():
         prodJson[prodId] = prodquan
         createorder = order.objects.create(user=request.user, prodJson=prodJson)
         createorder.save()
         lenth = len(ordersdef(request)) if ordersdef(request) != None else 0
-        return JsonResponse({"len": lenth}, safe=False)
+        prodtotal = idtotal(prodId, prodquan)
+        return JsonResponse({"len": lenth, "pp" : prodtotal}, safe=False)
     else:
         editorder = order.objects.filter(user=request.user, status='INCART')[0]
         prodJson = ast.literal_eval(editorder.prodJson)
@@ -482,7 +491,8 @@ def addcart(request):
         editorder.prodJson = prodJson
         editorder.save()
         lenth = len(ordersdef(request)) if ordersdef(request) != None else 0
-        return JsonResponse({"len": lenth}, safe=False)
+        prodtotal = idtotal(prodId, prodquan)
+        return JsonResponse({"len": lenth, "pp" : prodtotal}, safe=False)
 #####################---------- End Add Cart Function ----------#####################
 
 
@@ -525,29 +535,38 @@ def addtofav(request):
 
 #####################---------- Start Add Fav Function ----------#####################
 def total(request):
-    if order.objects.filter(user=request.user).exists():
+    if order.objects.filter(user=request.user, status='INCART').exists():
         totals = []
-        orders = order.objects.get(user=request.user, status='INCART')
+        withoutpercent = []
+        if len(list(order.objects.filter(user=request.user, status='INCART'))) > 1:
+            prodId = order.objects.filter(user=request.user, status='INCART')[0].id
+            orders = order.objects.get(user=request.user, status='INCART', id=prodId)
+        else:
+            orders = order.objects.get(user=request.user, status='INCART')
         prodJson = ast.literal_eval(orders.prodJson)
         for key, value in prodJson.items():
-            totals.append(idtotal(key, value))
-        carttotal = sum(totals)
+            if product.objects.get(id=key).discount:
+                totals.append(idtotal(key, value))
+            else:
+                withoutpercent.append(idtotal(key, value))
+        carttotal = round(sum(totals), 3)
         if userdetail.objects.filter(user=request.user).exists():
-            percent = userdetail.objects.filter(user=request.user)[0].percentage
+            percent = userdetail.objects.filter(user=request.user)[0].OnCreditPercentage
         else:
             percent = 0
-        saved = int(int(carttotal) / 100 * int(percent))
-        total = int(int(carttotal) - int(saved))
-        orders.carttotal = carttotal
+        saved = round((float(carttotal) / 100 * float(percent)), 3)
+        total = round(float(carttotal) - float(saved), 3)
+        orders.carttotal = round(float(carttotal) + float(sum(withoutpercent)), 3)
         orders.percent = percent
-        orders.saved = saved
-        orders.total = total
+        orders.saved = round(float(saved) + float(sum(withoutpercent)), 3)
+        orders.total = round(float(total) + float(sum(withoutpercent)), 3)
         orders.save()
         return JsonResponse({"data": True,
-        "carttotal": carttotal,
+        "carttotal": round(float(carttotal) + float(sum(withoutpercent)), 3),
         'percent': percent,
         "save": saved,
-        "total": total}, safe=False)
+        "total": round(float(total) + float(sum(withoutpercent)), 3)},
+        safe=False)
 
     return JsonResponse({"data": False}, safe=False)
 #####################---------- End Add Fav Function ----------#####################
@@ -555,17 +574,79 @@ def total(request):
 
 
 
+
+
+
+
+def changetotal(request):
+    totals = []
+    withoutpercent = []
+    if len(list(order.objects.filter(user=request.user, status='INCART'))) > 1:
+        prodId = order.objects.filter(user=request.user, status='INCART')[0].id
+        orders = order.objects.get(user=request.user, status='INCART', id=prodId)
+    else:
+        orders = order.objects.get(user=request.user, status='INCART')
+    prodJson = ast.literal_eval(orders.prodJson)
+    for key, value in prodJson.items():
+        if product.objects.get(id=key).discount:
+            totals.append(idtotal(key, value))
+        else:
+            withoutpercent.append(idtotal(key, value))
+    carttotal = round(sum(totals), 3)
+    if userdetail.objects.filter(user=request.user).exists():
+        percent = userdetail.objects.filter(user=request.user)[0].OnCashPercentage
+    else:
+        percent = 0
+    saved = round((float(carttotal) / 100 * float(percent)), 3)
+    total = round(float(carttotal) - float(saved), 3)
+    orders.carttotal = round(float(carttotal) + float(sum(withoutpercent)), 3)
+    orders.percent = percent
+    orders.saved = round(float(saved) + float(sum(withoutpercent)), 3)
+    orders.total = round(float(total) + float(sum(withoutpercent)), 3)
+    orders.save()
+    return round(float(total) + float(sum(withoutpercent)), 3)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #####################---------- Start Confrim Checkout Page Function ----------#####################
 def confirmcheckout(request):
     payment = request.POST['payment']
-    if not order.objects.filter(user=request.user, status='INCART').exists():
-        return JsonResponse({'data': False}, safe=False)
-    ordersed = order.objects.get(user=request.user, status='INCART')
-    ordersed.status = "PENDING"
-    ordersed.payment = payment
-    ordersed.orderDateTime = datetime.now()
-    ordersed.save()
-    return JsonResponse({'data': True}, safe=False)
+    if payment == 'CREDIT':
+        if len(list(order.objects.filter(user=request.user, status='INCART'))) > 1:
+            prodId = order.objects.filter(user=request.user, status='INCART')[0].id
+            ordersed = order.objects.get(user=request.user, status='INCART', id=prodId)
+        else:
+            ordersed = order.objects.get(user=request.user, status='INCART')
+        ordersed.status = "PENDING"
+        ordersed.payment = payment
+        ordersed.orderDateTime = datetime.now()
+        ordersed.save()
+        return JsonResponse({'data': True}, safe=False)
+    elif payment == 'CASH':
+        total = changetotal(request)
+        if len(list(order.objects.filter(user=request.user, status='INCART'))) > 1:
+            prodId = order.objects.filter(user=request.user, status='INCART')[0].id
+            ordersed = order.objects.get(user=request.user, status='INCART', id=prodId)
+        else:
+            ordersed = order.objects.get(user=request.user, status='INCART')
+        ordersed.status = "PENDING"
+        ordersed.payment = payment
+        ordersed.orderDateTime = datetime.now()
+        ordersed.save()
+        return JsonResponse({'data': 'true1', "total": total}, safe=False)
 #####################---------- End Confrim Checkout Page Function ----------#####################
 
 

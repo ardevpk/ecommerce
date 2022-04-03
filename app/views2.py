@@ -19,13 +19,21 @@ def pdf(request, id):
     products = []
     prodQuan = []
     totals = []
+    perproducts = []
     orderJson = ast.literal_eval(ordersed.prodJson)
     for key, value in orderJson.items():
         products.append(product.objects.filter(id=key)[0])
         prodQuan.append(value)
         totals.append(idtotal(key, value))
+        perproducts.append(round(product.objects.filter(id=key)[0].priceByBox / product.objects.filter(id=key)[0].peicePerBox, 3))
 
-    context = {"order": ordersed, "request": request, "products": products, "prodQuan": prodQuan, "totals": totals}
+    context = {
+        "order": ordersed,
+        "request": request,
+        "products": products,
+        "prodQuan": prodQuan,
+        "perproducts": perproducts,
+        "totals": totals}
     template = get_template(template_path)
     html  = template.render(context)
     result = BytesIO()

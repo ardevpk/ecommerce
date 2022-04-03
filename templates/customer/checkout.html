@@ -25,7 +25,7 @@
             <li class="list-group-item d-flex justify-content-between">
               <span>Total (PKR)</span>
               {% if total %}
-              <strong>Rs. {{total}}</strong>
+              <strong id="total">Rs. {{total}}</strong>
               {% else %}
               <strong>Rs. 0.00</strong>
               {% endif %}
@@ -102,8 +102,8 @@
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
       crossorigin="anonymous"
     ></script>
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
       function confirmcheckout(){
         document.getElementById("btn").className = "w-100 btn btn-info btn-lg"
@@ -129,20 +129,39 @@
               document.getElementById("btn").className = "w-100 btn btn-success btn-lg"
               document.getElementById("btn").innerHTML = `
               <i class="bi bi-check2-square mx-3"></i>` + 'Order Confirmed'
-              }else{
-                swal({
-                  title: `Error`,
-                  text: "Alreay Added To Pending Orders Go To Cart Then Pending Orders To View This Order Details!",
-                  icon: "error",
-            })
-            document.getElementById("btn").className = "w-100 btn btn-success btn-lg"
-            document.getElementById("btn").innerHTML = `
-            <i class="bi bi-check2-square mx-3"></i>` + 'Order Confirmed'
-            
-              }
+              swal.fire({
+                title: 'Congratulations',
+                icon: 'success',
+                html: `Congratulations Your Credit Order Has Been Confirmed`,
+                showCloseButton: true,
+                focusConfirm: false,
+                confirmButtonText: 'View In Pending Orders',
+                }).then((result) => {
+                if (result.isConfirmed) {
+                  window.location.href = '/cart/pending/'
+                }
+                })
+            }else{
+              document.getElementById("total").innerHTML = response['total']
+              document.getElementById("btn").className = "w-100 btn btn-success btn-lg"
+              document.getElementById("btn").innerHTML = `
+              <i class="bi bi-check2-square mx-3"></i>` + 'Order Confirmed'
+              swal.fire({
+                title: 'Congratulations',
+                icon: 'success',
+                html: `Congratulations Your Cash Order Has Been Confirmed`,
+                showCloseButton: true,
+                focusConfirm: false,
+                confirmButtonText: 'View In Pending Orders',
+                }).then((result) => {
+                if (result.isConfirmed) {
+                  window.location.href = '/cart/pending/'
+                }
+                })
+            }
               },
           failure: function () {
-            swal({
+            swal.fire({
                 title: `Failure`,
                 text: "Something Went Wrong Please Try Again Later!",
                 icon: "error",

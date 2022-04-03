@@ -19,10 +19,6 @@
           font-weight: bold;
           text-align: center;
         }
-        h3{
-            
-          margin: 20px;
-        }
         td, th {
           text-align: center;
         }
@@ -31,6 +27,13 @@
 <body>
     
       <h1 class="h1">Shezad Electronics</h1>
+      <h3>Status: {{order.status}}</h3>
+      {% if order.status == "PENDING" %}
+      <h3>Changes Allow: Yes</h3>
+      {% else %}
+      <h3>Changes Allow: No</h3>
+      {% endif %}
+      <h3>Payment: {{order.payment}}</h3>
       <table style="margin-top: 70px;font-size: 1.5em;">
         <thead>
           <tr>
@@ -38,7 +41,7 @@
             <th>Name</th>
             <th>Brand</th>
             <th>Color</th>
-            <th>Price Per Peice</th>
+            <th>Price / Peice</th>
             <th>Quantity</th>
             <th>Total</th>
           </tr>
@@ -50,7 +53,11 @@
                 <td>{{ product.name }}</td>
                 <td>{{ product.brand }}</td>
                 <td>{{ product.color }}</td>
-                <td>{% widthratio product.priceByBox product.peicePerBox 1 %}</td>
+								{% for perproduct in perproducts %}
+								{% if forloop.counter == forloop.parentloop.counter %}
+                  <td>{{perproduct}}</td>
+                {% endif %}
+                {% endfor %}
                 {% for prodquan in prodQuan %}
                 {% if forloop.counter == forloop.parentloop.counter %}
                     <td>{{prodquan}}</td>
@@ -67,7 +74,6 @@
       </table>
       <div class="container" style="margin-top: 10px;">
         <hr>
-        <h2>Payment: {{order.payment}}</h2>
         <h1>Totals: {{order.total}}</h1>
       </div>
 </body>
