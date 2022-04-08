@@ -1,0 +1,185 @@
+{% block content %}
+{% load static %}
+    <section class="navbar_section">
+      <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-dark">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="/">EShop.</a>
+            <button
+              class="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+              <ul
+                class="navbar-nav m-auto mb-2 mb-lg-0 d-flex gap-0 gap-md-3 gap-sm-1"
+              >
+                
+
+
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle active"
+                  href="#"
+                  id="navbarDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Orders
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <li><a class="dropdown-item" href="/staff/pending/">Pending Orders</a></li>
+                    <li><a class="dropdown-item" href="/staff/processing/">Processing Orders</a></li>
+                    <li><a class="dropdown-item" href="/staff/completed/">Completed Orders</a></li>
+                    <li><a class="dropdown-item" href="/staff/cancelled/">Cancelled Orders</a></li>
+                  <li><hr class="dropdown-divider" /></li>
+                  <li>
+                    <a class="dropdown-item" href="#">The End.</a>
+                  </li>
+                </ul>
+              </li>
+
+
+
+
+
+                <li class="nav-item dropdown">
+                  <a
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    id="navbarDropdown"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Users
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <li><a class="dropdown-item" href="/admin/accounts/user/add/">Add A New User</a></li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li>
+                      <a class="dropdown-item" href="/admin/accounts/user/">All Users</a>
+                    </li>
+                  </ul>
+                </li>
+
+
+
+
+                <li class="nav-item dropdown">
+                  <a
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    id="navbarDropdown"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    User Details
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <li><a class="dropdown-item" href="/admin/app/userdetail/add/">Add A New User Detail</a></li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li>
+                      <a class="dropdown-item" href="/admin/app/userdetail/">All User Details</a>
+                    </li>
+                  </ul>
+                </li>
+
+
+
+                <li class="nav-item dropdown">
+                  <a
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    id="navbarDropdown"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    Products
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <li><a class="dropdown-item" href="/admin/app/product/add/">Add A New Product</a></li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li>
+                      <a class="dropdown-item" href="/admin/app/product/">All Products</a>
+                    </li>
+                  </ul>
+                </li>
+
+
+
+                <li class="nav-item dropdown">
+                  <a
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    id="navbarDropdown"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                  Recoveries
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <li><a class="dropdown-item" href="/staff/recovery/">Add Recovery</a></li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li>
+                      <a class="dropdown-item" href="/admin/app/recovery/">View All Recoveries</a>
+                    </li>
+                  </ul>
+                </li>
+
+
+
+                <li class="nav-item dropdown">
+                  <a
+                    class="nav-link dropdown-toggle"
+                    href="#"
+                    id="navbarDropdown"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                  Returns
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                      <li><a class="dropdown-item" href="/staff/return/">Add Return</a></li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li>
+                      <a class="dropdown-item" href="/admin/app/returns/">View All Returns</a>
+                    </li>
+                  </ul>
+                </li>
+
+
+
+                
+
+                  <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/profile/">{{request.user.username}}</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/logout/"
+                      >Logout</a
+                    >
+                  </li>
+
+
+
+                  </div>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </section>
+    
+{% endblock %}

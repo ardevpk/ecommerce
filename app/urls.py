@@ -1,7 +1,9 @@
 from unicodedata import name
 from django.urls import path
 from .views import *
-from .views2 import pdf
+from .pdf import pdf
+from .staff import *
+
 urlpatterns = [
     # Main Shop Home Page For Customer
     path('', index, name='index'),
@@ -28,8 +30,26 @@ urlpatterns = [
     path('brand/<str:brand>/', brandspage, name="brand"),
     path('category/<str:category>/', categoryspage, name="category"),
     path('color/<str:color>/', colorspage, name="color"),
+    
 
-    # Main Home Page For Staff
-    # Test
     path("cart/pending/pdf/<int:id>/" , pdf, name="pdf"),
+
+
+    # Staff Views Start From Here
+    path('staff/pending/', staffpending, name="staffpending"),
+    path('staff/processing/', staffprocessing, name="staffprocessing"),
+    path('staff/completed/', staffcompleted, name="staffcompleted"),
+    path('staff/cancelled/', staffcancelled, name="staffcancelled"),
+
+
+
+    path('staff/pdf/<int:id>/', pdf, name="staffpdf"),
+
+
+    path('staff/recovery/', recovery, name="recovery"),
+    path('staff/return/', returns, name="returns"),
+
+
+
+    path('staff/order/status/change/<int:id>/<str:name>/', changesaffstats, name="changesaffstats"),
 ]

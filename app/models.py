@@ -16,6 +16,8 @@ class product(models.Model):
     stockByPeice = models.IntegerField()
     peicePerBox = models.IntegerField()
     discount = models.BooleanField(default=True)
+    def __str__(self):
+        return self.name
 
 
 
@@ -42,6 +44,8 @@ class order(models.Model):
     percent = models.DecimalField(max_digits=100000000, decimal_places=3, null=True, blank=True)
     saved = models.DecimalField(max_digits=100000000, decimal_places=3, null=True, blank=True)
     total = models.DecimalField(max_digits=100000000, decimal_places=3, null=True, blank=True)
+    def __str__(self):
+        return self.user.username
 
 
 
@@ -49,8 +53,10 @@ class order(models.Model):
 
 
 class favourite(models.Model):
-	user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'is_staff': False})
-	added = models.IntegerField()
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'is_staff': False})
+    added = models.IntegerField()
+    def __str__(self):
+        return self.user.username
 
 
 
@@ -72,3 +78,35 @@ class userdetail(models.Model):
     location = models.CharField(max_length=254)
     city = models.ForeignKey(city, default=CITY_ID, on_delete=models.CASCADE, null=True, blank=True)
     country = models.CharField(max_length=254, default='pakistan', null=True, blank=True)
+    total = models.DecimalField(max_digits=100000000, decimal_places=3, default=0.000, null=True, blank=True)
+    def __str__(self):
+        return self.user.username
+
+
+
+
+
+
+class RECOVERY(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'is_staff': False}, related_name='CustomerRecovery')
+    cash = models.DecimalField(max_digits=100000000, decimal_places=3, default=0.000)
+    orderid = models.IntegerField(null=True, blank=True)
+    image = models.ImageField(upload_to=f'images/recovery/', null=True, blank=True)
+    recoveryBy = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'is_staff': True}, related_name='StaffRecovery')
+    date = models.DateTimeField(null=True, blank=True)
+    def __str__(self):
+        return self.user.username
+
+
+
+
+
+class RETURNS(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'is_staff': False}, related_name='CustomerReturns')
+    cash = models.DecimalField(max_digits=100000000, decimal_places=3, default=0.000)
+    orderid = models.IntegerField(null=True, blank=True)
+    image = models.ImageField(upload_to=f'images/recovery/', null=True, blank=True)
+    returnTakenBy = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'is_staff': True}, related_name='StaffReturns')
+    date = models.DateTimeField(null=True, blank=True)
+    def __str__(self):
+        return self.user.username

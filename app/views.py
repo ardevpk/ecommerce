@@ -4,9 +4,10 @@ from allauth.account.admin import EmailAddress
 from django.contrib.auth.decorators import login_required
 from .models import product, order, favourite, userdetail
 from django.contrib import messages
-import json
 import ast
 from datetime import datetime
+from django.contrib.auth import get_user_model
+User = get_user_model()
 
 
 
@@ -49,7 +50,7 @@ def checkuser(request):
         if (request.user.is_verified or EmailAddress.objects.filter(email=request.user.email)[0].verified) and not request.user.is_staff:
             return dicts
         elif (request.user.is_verified or EmailAddress.objects.filter(email=request.user.email)[0].verified) and request.user.is_staff:
-            dicts['url'] = '/signin/'
+            dicts['url'] = '/staff/pending/'
             return dicts
         else:
             messages.add_message(request, messages.ERROR, 'Your Account Is Not Verified Yet Please Check Your Mail Or Contact Website Owner')
@@ -59,7 +60,7 @@ def checkuser(request):
         if (request.user.is_verified) and not request.user.is_staff:
             return dicts
         elif (request.user.is_verified) and request.user.is_staff:
-            dicts['url'] = '/signin/'
+            dicts['url'] = '/staff/pending/'
             return dicts
         else:
             messages.add_message(request, messages.ERROR, 'Your Account Is Not Verified Yet Please Check Your Mail Or Contact Website Owner')
@@ -451,6 +452,9 @@ def changepage(request, id):
             orderesed = order.objects.get(user=request.user, id=id)
             orderesed.status = "INCART"
             orderesed.save()
+            userdetails = userdetail.objects.get(user=request.user)
+            userdetails.total = round(float(userdetails.total) - float(orderesed.total), 3)
+            userdetails.save()
             return redirect('/cart/')
         return redirect('/cart/pending/')
     else:
@@ -475,7 +479,6 @@ def addcart(request):
     prodJson = {}
     prodId = request.POST.get('id')
     stock = int(product.objects.filter(id=prodId)[0].peicePerBox)
-    productdet = product.objects.filter(id=prodId)[0]
     prodquan = int(request.POST.get('quantity')) if not 'quantityb' in request.POST else int(int(request.POST.get('quantityb')) * int(stock))
     if not order.objects.filter(user=request.user, status='INCART').exists():
         prodJson[prodId] = prodquan
@@ -634,6 +637,9 @@ def confirmcheckout(request):
         ordersed.payment = payment
         ordersed.orderDateTime = datetime.now()
         ordersed.save()
+        userdetails = userdetail.objects.get(user=request.user)
+        userdetails.total = round(float(userdetails.total) + float(ordersed.total), 3)
+        userdetails.save()
         return JsonResponse({'data': True}, safe=False)
     elif payment == 'CASH':
         total = changetotal(request)
