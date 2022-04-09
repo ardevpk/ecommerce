@@ -105,7 +105,7 @@ class RETURNS(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'is_staff': False}, related_name='CustomerReturns')
     cash = models.DecimalField(max_digits=100000000, decimal_places=3, default=0.000)
     orderid = models.IntegerField(null=True, blank=True)
-    image = models.ImageField(upload_to=f'images/recovery/', null=True, blank=True)
+    image = models.ImageField(upload_to=f'images/return/', null=True, blank=True)
     returnTakenBy = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'is_staff': True}, related_name='StaffReturns')
     date = models.DateTimeField(null=True, blank=True)
     def __str__(self):

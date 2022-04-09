@@ -24,14 +24,20 @@
               <div class="col-lg-3 col-md-6 col-sm-6 col-6 mt-4">
                 <div class="cards_body_div">
                   <div class="cards_img_div">
-                    <img src="/media/{{product.image}}" alt="" />
+                    {% if 'http' in product.image %}
+                      <img src="{{product.image}}" loading="lazy" alt="" />
+                    {% else %}
+                      <img src="/media/{{product.image}}" loading="lazy" alt="" />
+                    {% endif %}
                     <span class="hot_text">{{product.color}}</span>
                   </div>
                   <div class="p-2 card_heart_div d-flex justify-content-between">
                     <div class="">
-                      <small>{{product.name}}</small>
-                      <!-- <br>
-                      <small>Color: {{product.color}}</small> -->
+                      <small>Name: {{product.name}}</small>
+                      <br>
+                      <small>Color: {{product.color}}</small>
+                      <br>
+                      <small>Brand: {{product.brand}}</small>
                       <br>
                       <small>Rs: {% widthratio product.priceByBox product.peicePerBox 1 %}<sub>/ Peice</sub></small>
                       <br>

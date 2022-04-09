@@ -3,8 +3,8 @@ from django.contrib import admin
 from .models import *
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('brand', 'name', 'category', 'stockByPeice', 'color', 'priceByBox')
-    list_filter = ['brand', 'name', 'category', 'stockByPeice', 'color', 'priceByBox']
+    list_display = ('brand', 'name', 'color', 'category', 'stockByPeice', 'priceByBox')
+    list_filter = ['brand', 'color', 'name', 'stockByPeice']
 
 class OrderAdmin(admin.ModelAdmin):
     list_display = ('user', 'orderDateTime', 'payment', 'status', 'CheckedBy', "carttotal", "percent", "saved", "total")

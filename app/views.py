@@ -8,8 +8,7 @@ import ast
 from datetime import datetime
 from django.contrib.auth import get_user_model
 User = get_user_model()
-
-
+from .tests import addprods
 
 
 #####################---------- Start HelpFull Functions ----------#####################
@@ -28,7 +27,7 @@ def favdef(request):
 
 
 def proddef():
-    prod = product.objects.all().order_by('category')
+    prod = product.objects.all().order_by('-id')
     return prod if prod else None
 
 def branddef():
@@ -88,6 +87,7 @@ def idtotal(x, value):
 #####################---------- Start Index Function ----------#####################
 @login_required(login_url='/signin/', redirect_field_name=None)
 def index(request):
+    # addprods()
     dicts = checkuser(request)
     if not 'url' in dicts:
         context = {
