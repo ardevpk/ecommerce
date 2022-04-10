@@ -19,9 +19,6 @@ urlpatterns = [
 	path('reset-password/<username>/<token>/', reset_user, name='reset-password'),
 	path('new-password/', new_password, name='new-password'),
 
-    # Profile
-    path('profile/', profile, name="profile"),
-
     # Google Auth 
     path('accounts/', include('allauth.urls')),
 #    path('', include("googleauthentication.urls"))

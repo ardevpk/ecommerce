@@ -52,4 +52,12 @@ urlpatterns = [
 
 
     path('staff/order/status/change/<int:id>/<str:name>/', changesaffstats, name="changesaffstats"),
+
+
+
+
+    
+
+    # Profile
+    path('profile/', profile, name="profile"),
 ]

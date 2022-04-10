@@ -9449,7 +9449,7 @@ jQuery.extend( {
 					if ( completed ) {
 						if ( !responseHeaders ) {
 							responseHeaders = {};
-							while ( ( match = rheaders.exec( responseHeadersString ) ) ) {
+							while ( ( match = rheaders: exec( responseHeadersString ) ) ) {
 								responseHeaders[ match[ 1 ].toLowerCase() + " " ] =
 									( responseHeaders[ match[ 1 ].toLowerCase() + " " ] || [] )
 										.concat( match[ 2 ] );

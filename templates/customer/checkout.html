@@ -25,9 +25,9 @@
             <li class="list-group-item d-flex justify-content-between">
               <span>Total (PKR)</span>
               {% if total %}
-              <strong id="total">Rs. {{total}}</strong>
+              <strong id="total">Rs.  {{total}}</strong>
               {% else %}
-              <strong>Rs. 0.00</strong>
+              <strong>Rs.  0.00</strong>
               {% endif %}
             </li>
           </ul>
@@ -159,6 +159,8 @@
                 }
                 })
             }
+            document.getElementById("lblCartCount").innerHTML = 0
+            document.getElementById("btn").disabled = true
               },
           failure: function () {
             swal.fire({

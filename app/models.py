@@ -73,6 +73,8 @@ class city(models.Model):
 CITY_ID = 2
 class userdetail(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, limit_choices_to={'is_staff': False})
+    shopname = models.CharField(max_length=254, default='Your Electronics Shop', null=True, blank=True)
+    phone = models.CharField(max_length=254, default='+923000000000', null=True, blank=True)
     OnCashPercentage = models.DecimalField(max_digits=100000000, decimal_places=3, default=0, null=True, blank=True)
     OnCreditPercentage = models.DecimalField(max_digits=100000000, decimal_places=3, default=0, null=True, blank=True)
     location = models.CharField(max_length=254)

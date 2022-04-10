@@ -1,3 +1,5 @@
+from urllib.error import HTTPError
+from django.http import HttpResponseNotAllowed
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -14,6 +16,8 @@ from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth import get_user_model
 User = get_user_model()
+from app.models import userdetail, RECOVERY, RETURNS, order
+from datetime import datetime
 
 
 length = 6
@@ -161,11 +165,3 @@ def verification(request):
 
 def resest_send(request):
 	return render(request, 'user/forgetsent.html')
-
-
-
-def profile(request):
-	return render(request, "user/profile.html")
-
-# def server(request):
-# 	return render(request, 'user/server.html')

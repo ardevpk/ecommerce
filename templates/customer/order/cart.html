@@ -68,7 +68,7 @@
 								</td>
 								{% for perproduct in perproducts %}
 								{% if forloop.counter == forloop.parentloop.counter %}
-									<td class="price text-center" data-title="Price/Box">Rs. <span id="pp_{{product.id}}">{{perproduct}}</span></td>
+									<td class="price text-center" data-title="Price/Box">Rs.  <span id="pp_{{product.id}}">{{perproduct}}</span></td>
 									<td class="qty text-center" data-title="Qty/Piece">
 								{% endif %}
 								{% endfor %}
@@ -90,7 +90,7 @@
 								</td>
 								{% for total in totals %}
 								{% if forloop.counter == forloop.parentloop.counter %}
-								<td class="total-amount text-center" data-title="Product Total">Rs. <span id="t_{{product.id}}">{{total}}</span></td>
+								<td class="total-amount text-center" data-title="Product Total">Rs.  <span id="t_{{product.id}}">{{total}}</span></td>
 								{% endif %}
 								{% endfor %}
 								<td class="action text-center" data-title="Remove"><a class="a_other" id="remove_ico_{{product.id}}" href="#" onclick="deletes(`{{product.id}}`)"><i class="bi bi-trash"></i></a></td>
@@ -144,7 +144,7 @@
 					<div class="single-service">
 						<i class="ti-rocket"></i>
 						<h4>Free shiping</h4>
-						<p>Orders over Rs.1000</p>
+						<p>Orders over Rs. 1000</p>
 					</div>
 					<!-- End Single Service -->
 				</div>
@@ -303,9 +303,9 @@ function total() {
 				swal.fire({
 				title: 'Total',
 				icon: 'info',
-				html: `Cart SubTotal: &nbsp&nbsp Rs: ${response['carttotal']} <br> You Save:
-				&nbsp&nbsp Rs: ${response['save']}(${response['percent']}%) <br> Your Total: 
-				&nbsp&nbsp Rs: ${response['total']}`,
+				html: `Cart SubTotal: &nbsp&nbsp Rs. ${response['carttotal']} <br> You Save:
+				&nbsp&nbsp Rs. ${response['save']}(${response['percent']}%) <br> Your Total: 
+				&nbsp&nbsp Rs. ${response['total']}`,
 				showCloseButton: true,
 				focusConfirm: false,
 				confirmButtonText: 'Checkout',

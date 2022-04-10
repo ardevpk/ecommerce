@@ -139,6 +139,13 @@ def changesaffstats(request, id, name):
     if request.user.is_authenticated and request.user.is_staff:
         orders = order.objects.get(id=id)
         orders.status = name
+        if name == "COMPLETED":
+            orders.CheckedBy = request.user
+            orders.CheckedDate = datetime.now()
+            print(orders.payment)
+            if orders.payment == 'CREDIT':
+                userdetails = userdetail.objects.get(user=orders.user)
+                userdetails.total = round(float(userdetails.total) + float(orders.total), 3)
         orders.save()
         messages.add_message(request, messages.ERROR, 'Status Changed Successfully')
         return redirect('/staff/pending/')

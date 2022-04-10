@@ -60,7 +60,7 @@
 									<!-- <p class="product-name"><a href="#">{{D.prodTag}}</a></p> -->
 									<p class="product-des"><a href="/product/{{product.cartSlug}}/">{{product.name}}</a>.</p>
 								</td>
-								<td class="price" data-title="Price/Box"><span>Rs.{{product.priceByBox}}</span></td>
+								<td class="price" data-title="Price/Box"><span>Rs. {{product.priceByBox}}</span></td>
 								<td class="qty" data-title="Qty/Piece">
 									<!-- Input Order -->
 									<div class="input-group">
@@ -82,7 +82,7 @@
 									</div>
 									<!--/ End Input Order -->
 								</td>
-								<td class="total-amount" data-title="Total"><span>Rs.</span></td>
+								<td class="total-amount" data-title="Total"><span>Rs. </span></td>
 								<td class="action" data-title="Remove"><a href="/prodDelete/{{product.id}}"><i class="ti-trash remove-icon"></i></a></td>
 							</tr>
 							{% endfor %}
@@ -106,14 +106,14 @@
 									<ul>
 										{% if tA %}
 										
-										<li>Cart Subtotal<span>Rs.{{tA}}</span></li>
+										<li>Cart Subtotal<span>Rs. {{tA}}</span></li>
 										{% else %}
 
-										<li>Cart Subtotal<span>Rs. 0.00</span></li>
+										<li>Cart Subtotal<span>Rs.  0.00</span></li>
 										{% endif %}
 										<li>Shipping<span>Free</span></li>
 										<li>You Save<span>%10</span></li>
-										<li class="last">You Pay<span>Rs. {% if tPay %}{{tPay}}{% else %}0.00{% endif %} </span></li>
+										<li class="last">You Pay<span>Rs.  {% if tPay %}{{tPay}}{% else %}0.00{% endif %} </span></li>
 									</ul>
 									<div class="button5">
 										<a href="/checkout/" class="btn">Checkout</a>
@@ -139,7 +139,7 @@
 					<div class="single-service">
 						<i class="ti-rocket"></i>
 						<h4>Free shiping</h4>
-						<p>Orders over Rs.1000</p>
+						<p>Orders over Rs. 1000</p>
 					</div>
 					<!-- End Single Service -->
 				</div>

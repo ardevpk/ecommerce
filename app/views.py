@@ -1,8 +1,8 @@
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import render, redirect
 from allauth.account.admin import EmailAddress
 from django.contrib.auth.decorators import login_required
-from .models import product, order, favourite, userdetail
+from .models import product, order, favourite, userdetail, RECOVERY, RETURNS
 from django.contrib import messages
 import ast
 from datetime import datetime
@@ -460,6 +460,80 @@ def changepage(request, id):
     else:
         return redirect(dicts['url'])
 #####################---------- End Change Order Status Function ----------#####################
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def profile(request):
+	today = datetime.now()
+	if request.user.is_authenticated and request.user.is_staff:
+		context = {
+			"returns": len(RETURNS.objects.filter(returnTakenBy=request.user)),
+			"recoverys": len(RECOVERY.objects.filter(recoveryBy=request.user)),
+			"orderspending": len(order.objects.filter(status="PENDING")),
+			"ordersprocessing": len(order.objects.filter(CheckedBy=request.user, status="PROCESSING")),
+			"orderscompleted": len(order.objects.filter(CheckedBy=request.user, status="COMPLETED", CheckedDate__month__gte=today.month, CheckedDate__month__lte=today.month)),
+			"orderscancelled": len(order.objects.filter(CheckedBy=request.user, status="CANCELLED", CheckedDate__month__gte=today.month, CheckedDate__month__lte=today.month)),
+			"orderscredit": len(order.objects.filter(CheckedBy=request.user, payment="CREDIT", status="COMPLETED", CheckedDate__month__gte=today.month, CheckedDate__month__lte=today.month)),
+			"orderscash": len(order.objects.filter(CheckedBy=request.user, payment="CASH", status="COMPLETED", CheckedDate__month__gte=today.month, CheckedDate__month__lte=today.month)),
+            'orders': ordersdef(request),
+            'favourite': favdef(request),
+            'brands': branddef(),
+            "categorys": categorydef(),
+            'colors': colordef(),
+		}
+		print(today.month)
+		return render(request, "staff/profile.html", context)
+	elif request.user.is_authenticated:
+		if userdetail.objects.filter(user=request.user).exists():
+			userde = userdetail.objects.filter(user=request.user)[0]
+		else:
+			userde = None
+		context = {
+			"userdetail": userde,
+			"returns": len(RETURNS.objects.filter(user=request.user)),
+			"orderspending": len(order.objects.filter(user=request.user, status="PENDING")),
+			"ordersprocessing": len(order.objects.filter(user=request.user, status="PROCESSING")),
+			"orderscompleted": len(order.objects.filter(user=request.user, status="COMPLETED", CheckedDate__month__gte=today.month, CheckedDate__month__lte=today.month)),
+			"orderscancelled": len(order.objects.filter(user=request.user, status="CANCELLED", CheckedDate__month__gte=today.month, CheckedDate__month__lte=today.month)),
+			"orderscredit": len(order.objects.filter(user=request.user, payment="CREDIT", status="COMPLETED", CheckedDate__month__gte=today.month, CheckedDate__month__lte=today.month)),
+			"orderscash": len(order.objects.filter(user=request.user, payment="CASH", status="COMPLETED", CheckedDate__month__gte=today.month, CheckedDate__month__lte=today.month)),
+            'orders': ordersdef(request),
+            'favourite': favdef(request),
+            'brands': branddef(),
+            "categorys": categorydef(),
+            'colors': colordef(),
+		}
+		return render(request, "customer/profile.html", context)
+	else:
+		return HttpResponseNotAllowed
+
+
+
+
+
+
+
+
+
 
 
 
