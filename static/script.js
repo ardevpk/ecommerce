@@ -45,7 +45,7 @@ function quan(id){
   
   
   function minusb(id){
-    if (parseInt(document.getElementById("input_"+id).value) > 0) {
+    if (parseInt(document.getElementById("inputb_"+id).value) > 0) {
       document.getElementById("inputb_"+id).value = parseInt(document.getElementById("inputb_"+id).value) - 1;
     }
   }

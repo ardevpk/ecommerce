@@ -32,9 +32,11 @@
                   </div>
                   <div class="p-2 card_heart_div d-flex justify-content-between">
                     <div class="">
-                      <small>{{product.name}}</small>
-                      <!-- <br>
-                      <small>Color: {{product.color}}</small> -->
+                      <small>Name: {{product.name}}</small>
+                      <br>
+                      <small>Color: {{product.color}}</small>
+                      <br>
+                      <small>Brand: {{product.brand}}</small>
                       <br>
                       <small>Rs: {% widthratio product.priceByBox product.peicePerBox 1 %}<sub>/ Peice</sub></small>
                       <br>
@@ -122,7 +124,7 @@ $("#btn_"+id).prop('disabled', false);
 }
 
 function minus(id){
-    if (parseInt(document.getElementById("input_"+id).value) > 0) {
+    if (parseInt(document.getElementById("inputb_"+id).value) > 0) {
       document.getElementById("input_"+id).value = parseInt(document.getElementById("input_"+id).value) - 1;
     }
 }
